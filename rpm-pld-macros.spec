@@ -1,10 +1,7 @@
-#
-# TODO: rename to rpm-pld-setup/config and split build stuff from main package
-#
 %define		rpm_macros_rev	1.744
 %define		find_lang_rev	1.40
-Summary:	PLD Linux RPM build macros
-Summary(pl.UTF-8):	Makra do budowania pakietów RPM dla Linuksa PLD
+Summary:	PLD Linux RPM macros
+Summary(pl.UTF-8):	Makra RPM dla Linuksa PLD
 Name:		rpm-pld-macros
 Version:	%{rpm_macros_rev}
 Release:	2
@@ -57,9 +54,26 @@ Patch0:		disable-systemd.patch
 #Patchx: %{name}-pydebuginfo.patch
 BuildRequires:	rpm >= 4.4.9-56
 BuildRequires:	sed >= 4.0
+BuildArch:	noarch
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+# redefine to bootstrap
+%define		_usrlibrpm %{_prefix}/lib/rpm
+
+%description
+This package contains rpm macros for PLD Linux.
+
+%description -l pl.UTF-8
+Ten pakiet zawiera makra rpm-a dla Linuksa PLD.
+
+%package build
+Summary:	PLD Linux RPM build macros
+Summary(pl.UTF-8):	Makra do budowania pakietów RPM dla Linuksa PLD
+Requires:	%{name} = %{version}-%{release}
 Requires:	findutils >= 1:4.2.26
 Provides:	rpmbuild(find_lang) = %{find_lang_rev}
 Provides:	rpmbuild(macros) = %{rpm_macros_rev}
+Obsoletes:	rpm-build-macros
 Obsoletes:	rpm-macros
 # rm: option `--interactive' doesn't allow an argument
 Conflicts:	coreutils < 6.9
@@ -77,16 +91,11 @@ Conflicts:	python3 < 1:3.2.1-3
 # libtool --install
 Conflicts:	libtool < 2:2.2
 %endif
-BuildArch:	noarch
-BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-# redefine to bootstrap
-%define		_usrlibrpm %{_prefix}/lib/rpm
-
-%description
+%description build
 This package contains rpm build macros for PLD Linux.
 
-%description -l pl.UTF-8
+%description build -l pl.UTF-8
 Ten pakiet zawiera makra rpm-a do budowania pakietów dla Linuksa PLD.
 
 %package rubyprov
@@ -219,7 +228,7 @@ cp -p %{SOURCE61} $RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/mimetype
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%files
+%files build
 %defattr(644,root,root,755)
 %{_usrlibrpm}/macros.build
 %{_usrlibrpm}/macros.d/browser-plugins
