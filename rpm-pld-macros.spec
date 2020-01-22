@@ -4,7 +4,7 @@ Summary:	PLD Linux RPM macros
 Summary(pl.UTF-8):	Makra RPM dla Linuksa PLD
 Name:		rpm-pld-macros
 Version:	%{rpm_macros_rev}
-Release:	3
+Release:	4
 License:	GPL
 Group:		Development/Building
 Source0:	macros.pld
@@ -187,42 +187,42 @@ cp -p macros.pld $RPM_BUILD_ROOT%{_usrlibrpm}/macros.build
 cp -p %{SOURCE8} $RPM_BUILD_ROOT%{_usrlibrpm}/compress-doc
 cp -p %{SOURCE9} $RPM_BUILD_ROOT%{_usrlibrpm}/find-spec-bcond
 
-cat %{SOURCE5} %{SOURCE6} >$RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/kernel
+cat %{SOURCE5} %{SOURCE6} >$RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/macros.kernel
 
 install -p service_generator.sh $RPM_BUILD_ROOT%{_usrlibrpm}
 install -p %{SOURCE3} $RPM_BUILD_ROOT%{_usrlibrpm}/find-lang.sh
 install -p %{SOURCE4} $RPM_BUILD_ROOT%{_usrlibrpm}/dokuwiki-find-lang.sh
 
-cat %{SOURCE11} %{SOURCE10} >$RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/ruby
+cat %{SOURCE11} %{SOURCE10} >$RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/macros.ruby
 install -p %{SOURCE12} $RPM_BUILD_ROOT%{_usrlibrpm}/rubygems.rb
 install -p %{SOURCE13} $RPM_BUILD_ROOT%{_usrlibrpm}/gem_helper.rb
 
-cat %{SOURCE21} %{SOURCE20} >$RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/java
+cat %{SOURCE21} %{SOURCE20} >$RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/macros.java
 install %{SOURCE22} $RPM_BUILD_ROOT%{_usrlibrpm}/java-find-requires
 install %{SOURCE23} $RPM_BUILD_ROOT%{_usrlibrpm}/eclipse-feature.xslt
 
-cat %{SOURCE31} %{SOURCE30} >$RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/php
+cat %{SOURCE31} %{SOURCE30} >$RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/macros.php
 cp -p %{SOURCE32} $RPM_BUILD_ROOT%{_usrlibrpm}/php.prov
 cp -p %{SOURCE33} $RPM_BUILD_ROOT%{_usrlibrpm}/php.req
 cp -p %{SOURCE34} $RPM_BUILD_ROOT%{_usrlibrpm}/php.req.php
 
-cp -p %{SOURCE40} $RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/browser-plugins
-cp -p %{SOURCE41} $RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/cacti
-cp -p %{SOURCE42} $RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/emacs
-cp -p %{SOURCE43} $RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/ghc
-cp -p %{SOURCE44} $RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/nagios
-cp -p %{SOURCE45} $RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/openldap
-cp -p %{SOURCE46} $RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/perl
-cp -p %{SOURCE47} $RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/python
-cp -p %{SOURCE48} $RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/systemd
-cp -p %{SOURCE49} $RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/tcl
-cp -p %{SOURCE50} $RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/upstart
-cp -p %{SOURCE51} $RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/webapp
-cp -p %{SOURCE52} $RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/xmms
-cp -p %{SOURCE53} $RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/xorg
+cp -p %{SOURCE40} $RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/macros.browser-plugins
+cp -p %{SOURCE41} $RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/macros.cacti
+cp -p %{SOURCE42} $RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/macros.emacs
+cp -p %{SOURCE43} $RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/macros.ghc
+cp -p %{SOURCE44} $RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/macros.nagios
+cp -p %{SOURCE45} $RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/macros.openldap
+cp -p %{SOURCE46} $RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/macros.perl
+cp -p %{SOURCE47} $RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/macros.python
+cp -p %{SOURCE48} $RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/macros.systemd
+cp -p %{SOURCE49} $RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/macros.tcl
+cp -p %{SOURCE50} $RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/macros.upstart
+cp -p %{SOURCE51} $RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/macros.webapp
+cp -p %{SOURCE52} $RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/macros.xmms
+cp -p %{SOURCE53} $RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/macros.xorg
 
 cp -p %{SOURCE60} $RPM_BUILD_ROOT%{_usrlibrpm}/mimetypedeps.sh
-cp -p %{SOURCE61} $RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/mimetype
+cp -p %{SOURCE61} $RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/macros.mimetype
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -230,25 +230,25 @@ rm -rf $RPM_BUILD_ROOT
 %files build
 %defattr(644,root,root,755)
 %{_usrlibrpm}/macros.build
-%{_usrlibrpm}/macros.d/browser-plugins
-%{_usrlibrpm}/macros.d/cacti
-%{_usrlibrpm}/macros.d/emacs
-%{_usrlibrpm}/macros.d/ghc
-%{_usrlibrpm}/macros.d/java
-%{_usrlibrpm}/macros.d/kernel
-%{_usrlibrpm}/macros.d/mimetype
-%{_usrlibrpm}/macros.d/nagios
-%{_usrlibrpm}/macros.d/openldap
-%{_usrlibrpm}/macros.d/perl
-%{_usrlibrpm}/macros.d/php
-%{_usrlibrpm}/macros.d/python
-%{_usrlibrpm}/macros.d/ruby
-%{_usrlibrpm}/macros.d/systemd
-%{_usrlibrpm}/macros.d/tcl
-%{_usrlibrpm}/macros.d/upstart
-%{_usrlibrpm}/macros.d/webapp
-%{_usrlibrpm}/macros.d/xmms
-%{_usrlibrpm}/macros.d/xorg
+%{_usrlibrpm}/macros.d/macros.browser-plugins
+%{_usrlibrpm}/macros.d/macros.cacti
+%{_usrlibrpm}/macros.d/macros.emacs
+%{_usrlibrpm}/macros.d/macros.ghc
+%{_usrlibrpm}/macros.d/macros.java
+%{_usrlibrpm}/macros.d/macros.kernel
+%{_usrlibrpm}/macros.d/macros.mimetype
+%{_usrlibrpm}/macros.d/macros.nagios
+%{_usrlibrpm}/macros.d/macros.openldap
+%{_usrlibrpm}/macros.d/macros.perl
+%{_usrlibrpm}/macros.d/macros.php
+%{_usrlibrpm}/macros.d/macros.python
+%{_usrlibrpm}/macros.d/macros.ruby
+%{_usrlibrpm}/macros.d/macros.systemd
+%{_usrlibrpm}/macros.d/macros.tcl
+%{_usrlibrpm}/macros.d/macros.upstart
+%{_usrlibrpm}/macros.d/macros.webapp
+%{_usrlibrpm}/macros.d/macros.xmms
+%{_usrlibrpm}/macros.d/macros.xorg
 %attr(755,root,root) %{_usrlibrpm}/service_generator.sh
 %attr(755,root,root) %{_usrlibrpm}/find-lang.sh
 %attr(755,root,root) %{_usrlibrpm}/dokuwiki-find-lang.sh
