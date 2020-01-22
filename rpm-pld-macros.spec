@@ -4,7 +4,7 @@ Summary:	PLD Linux RPM macros
 Summary(pl.UTF-8):	Makra RPM dla Linuksa PLD
 Name:		rpm-pld-macros
 Version:	%{rpm_macros_rev}
-Release:	2.2
+Release:	3.1
 License:	GPL
 Group:		Development/Building
 Source0:	macros.pld
@@ -58,6 +58,8 @@ BuildRequires:	sed >= 4.0
 Obsoletes:	rpm-macros
 # rm: option `--interactive' doesn't allow an argument
 Conflicts:	coreutils < 6.9
+# tmpdir/_tmppath macros problems; optcppflags missing
+Conflicts:	rpm < 4.4.9-72
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -86,8 +88,6 @@ Conflicts:	php-devel < 4:5.2.0-3
 Conflicts:	php4-devel < 3:4.4.4-10
 # sysconfig module with proper 'purelib' path
 Conflicts:	python3 < 1:3.2.1-3
-# tmpdir/_tmppath macros problems; optcppflags missing
-Conflicts:	rpm < 4.4.9-72
 %if "%{pld_release}" != "ac"
 # libtool --install
 Conflicts:	libtool < 2:2.2
@@ -103,7 +103,7 @@ Ten pakiet zawiera makra rpm-a do budowania pakietów dla Linuksa PLD.
 Summary:	Ruby tools, which simplify creation of RPM packages with Ruby software
 Summary(pl.UTF-8):	Makra ułatwiające tworzenie pakietów RPM z programami napisanymi w Ruby
 Group:		Applications/File
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name}-build = %{version}-%{release}
 Requires:	ruby
 Requires:	ruby-modules
 Requires:	ruby-rubygems
@@ -122,7 +122,7 @@ Ruby.
 Summary:	Additional utilities for checking Java provides/requires in RPM packages
 Summary(pl.UTF-8):	Dodatkowe narzędzia do sprawdzania zależności kodu w Javie w pakietach RPM
 Group:		Applications/File
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name}-build = %{version}-%{release}
 Requires:	jar
 Requires:	file
 Requires:	findutils >= 1:4.2.26
@@ -143,7 +143,7 @@ RPM.
 Summary:	Additional utilities for checking PHP PEAR provides/requires in RPM packages
 Summary(pl.UTF-8):	Dodatkowe narzędzia do sprawdzania zależności skryptów php w RPM
 Group:		Applications/File
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name}-build = %{version}-%{release}
 Requires:	sed >= 4.0
 Suggests:	php-pear-PHP_CompatInfo
 Provides:	rpm-php-pearprov = 4.15
