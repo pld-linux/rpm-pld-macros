@@ -69,7 +69,6 @@ Ten pakiet zawiera makra rpm-a dla Linuksa PLD.
 %package build
 Summary:	PLD Linux RPM build macros
 Summary(pl.UTF-8):	Makra do budowania pakietów RPM dla Linuksa PLD
-Requires:	%{name} = %{version}-%{release}
 Requires:	findutils >= 1:4.2.26
 Provides:	rpmbuild(find_lang) = %{find_lang_rev}
 Provides:	rpmbuild(macros) = %{rpm_macros_rev}
@@ -102,7 +101,7 @@ Ten pakiet zawiera makra rpm-a do budowania pakietów dla Linuksa PLD.
 Summary:	Ruby tools, which simplify creation of RPM packages with Ruby software
 Summary(pl.UTF-8):	Makra ułatwiające tworzenie pakietów RPM z programami napisanymi w Ruby
 Group:		Applications/File
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name}-build = %{version}-%{release}
 Requires:	ruby
 Requires:	ruby-modules
 Requires:	ruby-rubygems
@@ -121,7 +120,7 @@ Ruby.
 Summary:	Additional utilities for checking Java provides/requires in RPM packages
 Summary(pl.UTF-8):	Dodatkowe narzędzia do sprawdzania zależności kodu w Javie w pakietach RPM
 Group:		Applications/File
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name}-build = %{version}-%{release}
 Requires:	jar
 Requires:	file
 Requires:	findutils >= 1:4.2.26
@@ -142,7 +141,7 @@ RPM.
 Summary:	Additional utilities for checking PHP PEAR provides/requires in RPM packages
 Summary(pl.UTF-8):	Dodatkowe narzędzia do sprawdzania zależności skryptów php w RPM
 Group:		Applications/File
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name}-build = %{version}-%{release}
 Requires:	sed >= 4.0
 Suggests:	php-pear-PHP_CompatInfo
 Provides:	rpm-php-pearprov = 4.15
