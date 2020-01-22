@@ -4,7 +4,7 @@ Summary:	PLD Linux RPM macros
 Summary(pl.UTF-8):	Makra RPM dla Linuksa PLD
 Name:		rpm-pld-macros
 Version:	%{rpm_macros_rev}
-Release:	2
+Release:	3
 License:	GPL
 Group:		Development/Building
 Source0:	macros.pld
