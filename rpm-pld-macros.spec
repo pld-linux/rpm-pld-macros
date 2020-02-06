@@ -1,11 +1,13 @@
-%define		rpm_macros_rev	1.744
+%define		rpm_macros_rev	1.745
 %define		find_lang_rev	1.40
+# split into individual X_prov_ver if there is a reason to desync
+%define		prov_ver	4.15
 Summary:	PLD Linux RPM macros
 Summary(pl.UTF-8):	Makra RPM dla Linuksa PLD
 Name:		rpm-pld-macros
 Version:	%{rpm_macros_rev}
-Release:	4
-License:	GPL
+Release:	1
+License:	GPL v2+
 Group:		Development/Building
 Source0:	macros.pld
 Source1:	service_generator.sh
@@ -105,7 +107,7 @@ Requires:	%{name}-build = %{version}-%{release}
 Requires:	ruby
 Requires:	ruby-modules
 Requires:	ruby-rubygems
-Provides:	rpm-rubyprov = 4.15
+Provides:	rpm-rubyprov = %{prov_ver}
 Obsoletes:	rpm-rubyprov
 
 %description rubyprov
@@ -126,7 +128,7 @@ Requires:	file
 Requires:	findutils >= 1:4.2.26
 Requires:	mktemp
 Requires:	unzip
-Provides:	rpm-javaprov = 4.15
+Provides:	rpm-javaprov = %{prov_ver}
 Obsoletes:	rpm-javaprov
 
 %description javaprov
@@ -144,7 +146,7 @@ Group:		Applications/File
 Requires:	%{name}-build = %{version}-%{release}
 Requires:	sed >= 4.0
 Suggests:	php-pear-PHP_CompatInfo
-Provides:	rpm-php-pearprov = 4.15
+Provides:	rpm-php-pearprov = %{prov_ver}
 Obsoletes:	rpm-php-pearprov
 
 %description php-pearprov
