@@ -124,6 +124,7 @@ Summary(pl.UTF-8):	Dodatkowe narzędzia do sprawdzania zależności kodu w Javie
 Group:		Applications/File
 Requires:	%{name}-build = %{version}-%{release}
 Requires:	jar
+Requires:	jre
 Requires:	file
 Requires:	findutils >= 1:4.2.26
 Requires:	mktemp
