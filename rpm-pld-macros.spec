@@ -1,4 +1,4 @@
-%define		rpm_macros_rev	1.744
+%define		rpm_macros_rev	1.747
 %define		find_lang_rev	1.40
 Summary:	PLD Linux RPM macros
 Summary(pl.UTF-8):	Makra RPM dla Linuksa PLD
