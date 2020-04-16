@@ -807,9 +807,9 @@ __spec_install_post_check_tmpfiles() { \
 %__spec_install_post_check_shebangs { \
 __spec_install_post_check_shebangs() { \
 %{!?debug:set +x;} \
-	fail=0; \
 	echo "Checking script shebangs..."; \
-	for f in $(find $RPM_BUILD_ROOT -type f -perm -500 -print); do \
+	fail=` \
+	find $RPM_BUILD_ROOT -type f -perm -500 -print | { fail=0; while IFS= read -r f; do \
 		shebang="$(sed -e'1s/#! *\(.*\)/\1/;t;d;q' "$f")" ; \
 		f="${f##$RPM_BUILD_ROOT}"; \
 		case "$shebang" in \
@@ -828,6 +828,8 @@ __spec_install_post_check_shebangs() { \
 			*) ;;\
 		esac ; \
 	done ; \
+	echo "$fail" ; \
+	}`; \
 	echo " DONE" ; \
         %{!?no_install_post_check_shebangs:return $fail;} \
 }; __spec_install_post_check_shebangs }}
