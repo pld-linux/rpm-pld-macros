@@ -672,8 +672,8 @@ Provides: %{1} = %{?epoch:%{epoch}:}%{?version:%{version}}%{?release:-%{release}
 
 # for package versions comparison (incl. cc_version or _rpmversion)
 # BuildRequires:	rpmbuild(macros) >= 1.749
-%_ver_lt()	%(test $(rpmvercmp "%{1}" "%{2}" >/dev/null 2>&1; echo $?) -eq 2; echo $?)
-%_ver_ge()	%(test $(rpmvercmp "%{1}" "%{2}" >/dev/null 2>&1; echo $?) -ne 2; echo $?)
+%_ver_lt()	%(test $(rpmvercmp "%{1}" "%{2}" >/dev/null 2>&1; echo $?) -ne 2; echo $?)
+%_ver_ge()	%(test $(rpmvercmp "%{1}" "%{2}" >/dev/null 2>&1; echo $?) -eq 2; echo $?)
 
 %apache_modules_api %{expand:%%global apache_modules_api %(awk '/#define MODULE_MAGIC_NUMBER_MAJOR/ {print $3}' /usr/include/apache/ap_mmn.h 2>/dev/null || echo ERROR)}%apache_modules_api
 
