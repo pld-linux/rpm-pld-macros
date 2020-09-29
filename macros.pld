@@ -1100,6 +1100,14 @@ fi; \
 };} \
 %{nil}
 
+# BuildRequires:	rpmbuild(macros) >= 1.751
+# Requires(post,postun):	/usr/bin/texhash	# if you want to ensure cache is updated
+%texhash() {{ \
+	umask 022; \
+	/usr/bin/texhash >&2; \
+};} \
+%{nil}
+
 #-----------------------------------------------------------------
 # post %install sequence:
 # - autodeps exceptions
