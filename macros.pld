@@ -21,7 +21,9 @@
 #
 %_sharedstatedir	/var/lib
 %_localstatedir		/var
-%_initrddir		%{_sysconfdir}/rc.d/init.d
+%_localedir			%{_datadir}/locale
+%_lispdir			%{_datadir}/emacs/site-lisp
+%_initddir			%{_sysconfdir}/rc.d/init.d
 
 %_defaultdocdir		%{_usr}/share/doc
 
