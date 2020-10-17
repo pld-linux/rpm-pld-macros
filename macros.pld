@@ -517,7 +517,7 @@ Obsoletes: %{1} < %{?epoch:%{epoch}:}%{?version:%{version}}%{?release:-%{release
 Provides: %{1} = %{?epoch:%{epoch}:}%{?version:%{version}}%{?release:-%{release}}
 
 # for package versions comparison (incl. cc_version or _rpmversion)
-# BuildRequires:	rpmbuild(macros) >= 1.749
+# BuildRequires:	rpmbuild(macros) >= 1.750
 %_ver_lt()	%(test $(rpmvercmp "%{1}" "%{2}" >/dev/null 2>&1; echo $?) -ne 2; echo $?)
 %_ver_ge()	%(test $(rpmvercmp "%{1}" "%{2}" >/dev/null 2>&1; echo $?) -eq 2; echo $?)
 
