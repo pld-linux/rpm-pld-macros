@@ -60,7 +60,7 @@ if ARGV[0] == "build" or ARGV[0] == "install" or ARGV[0] == "spec"
     opts.on("--fix-permissions", "Force standard permissions for files installed") do
       ARGV.delete("--fix-permissions")
       fixperms = true
-    end    
+    end
     opts.on("-i", "--install-dir GEMDIR", "Gem repository directory") do |val|
       gemdir = val
     end
