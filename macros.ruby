@@ -2,18 +2,21 @@
 
 %__ruby			/usr/bin/ruby
 
+# helpers to get rbconfig parameter
+%__ruby_rbconfig()	%(%{__ruby} -r rbconfig -e 'print RbConfig::CONFIG["%1"]' 2>/dev/null || echo ERROR)
+%__ruby_rbconfig_path()	%(%{__ruby} -r rbconfig -r pathname -e 'print Pathname(RbConfig::CONFIG["%1"]).cleanpath' 2>/dev/null || echo ERROR)
+
 # Ruby ABI version
 # NOTE: %ruby_version may be empty, depending how Ruby was built
 %ruby_abi		%{expand:%%global ruby_abi %(%{__ruby} -r rbconfig -e 'print [RbConfig::CONFIG["MAJOR"], RbConfig::CONFIG["MINOR"]].join(".")' 2>/dev/null || echo ERROR)}%ruby_abi
-
-# get rbconfig parameter
-%__ruby_rbconfig()	%(%{__ruby} -r rbconfig -e 'print RbConfig::CONFIG["%1"]' 2>/dev/null || echo ERROR)
-%__ruby_rbconfig_path()	%(%{__ruby} -r rbconfig -r pathname -e 'print Pathname(RbConfig::CONFIG["%1"]).cleanpath' 2>/dev/null || echo ERROR)
+# Ruby arch combo (CPU-OS, e.g. i686-linux)
+%ruby_arch		%{expand:%%global ruby_arch %{__ruby_rbconfig arch}}%ruby_arch
 
 %ruby_archdir		%{expand:%%global ruby_archdir %{__ruby_rbconfig_path archdir}}%ruby_archdir
 %ruby_libdir		%{expand:%%global ruby_libdir %{__ruby_rbconfig rubylibdir}}%ruby_libdir
 %ruby_ridir		%{expand:%%global ruby_ridir %(%{__ruby} -r rbconfig -e 'print File.join(RbConfig::CONFIG["datadir"], "ri", "system")' 2>/dev/null || echo ERROR)}%ruby_ridir
 %ruby_rubylibdir	%{expand:%%global ruby_rubylibdir %{__ruby_rbconfig_path rubylibdir}}%ruby_rubylibdir
+%ruby_rubyhdrdir	%{expand:%%global ruby_rubyhdrdir %{__ruby_rbconfig_path rubyhdrdir}}%ruby_rubyhdrdir
 %ruby_vendorarchdir	%{expand:%%global ruby_vendorarchdir %{__ruby_rbconfig vendorarchdir}}%ruby_vendorarchdir
 %ruby_vendorlibdir	%{expand:%%global ruby_vendorlibdir %{__ruby_rbconfig_path vendorlibdir}}%ruby_vendorlibdir
 %ruby_sitearchdir	%{expand:%%global ruby_sitearchdir %{__ruby_rbconfig sitearchdir}}%ruby_sitearchdir
