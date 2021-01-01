@@ -429,6 +429,10 @@ LC_ALL=C.UTF-8 %{__meson} \
 %__true_false() %{expand:%%{?with_%{1}:true}%%{!?with_%{1}:false}}
 %__true_false_not() %{expand:%%{?with_%{1}:false}%%{!?with_%{1}:true}}
 
+# expands to enabled or disabled based on bcond; for use with meson or cmake
+%__enabled_disabled() %{expand:%%{?with_%{1}:enabled}%%{!?with_%{1}:disabled}}
+%__enabled_disabled_not() %{expand:%%{?with_%{1}:disabled}%%{!?with_%{1}:enabled}}
+
 # for use with cmake:
 # Usage: cmake_on_off BCOND_NAME [OPTION_NAME]
 # BuildRequires: rpmbuild(macros) >= 1.742
