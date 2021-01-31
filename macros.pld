@@ -1129,7 +1129,6 @@ fi; \
 #
 %__noautoreqfiles	%(sed -e s'/#.*//' /etc/rpm/noautoreqfiles)%{?_noautoreqfiles: %{_noautoreqfiles}}
 %__noautoprovfiles	%(sed -e s'/#.*//' /etc/rpm/noautoprovfiles)%{?_noautoprovfiles: %{_noautoprovfiles}}
-%__noautoreqdep		%(sed -e s'/#.*//' /etc/rpm/noautoreqdep)%{?_noautoreqdep: %{_noautoreqdep}}
 %__noautoprov		%(sed -e s'/#.*//' /etc/rpm/noautoprov) \
 	%{?_noautoprov: %{_noautoprov}} \
 	%{?_noautoprov_java: %{__noauto_regexp_helper -p java %{_noautoprov_java}}} \
@@ -1141,6 +1140,7 @@ fi; \
 	%{nil}
 %__noautoreq		%(sed -e s'/#.*//' /etc/rpm/noautoreq) \
 	%{?_noautoreq: %{_noautoreq}} \
+	%{?_noautoreqdep: %{_noautoreqdep}} \
 	%{?_noautoreq_java: %{__noauto_regexp_helper -p java %{_noautoreq_java}}} \
 	%{?_noautoreq_mono: %{__noauto_regexp_helper -p mono %{_noautoreq_mono}}} \
 	%{?_noautoreq_pear: %{__noauto_regexp_helper -p pear %{_noautoreq_pear}}} \
@@ -1148,6 +1148,25 @@ fi; \
 	%{?_noautoreq_pyegg: %{__noauto_regexp_helper -p pythonegg %{_noautoreq_pyegg}}} \
 	%{?_noautoreq_py3egg: %{__noauto_regexp_helper -p python3egg %{_noautoreq_py3egg}}} \
 	%{nil}
+
+%__noautodep_helper() %(awk -v x="%*" 'BEGIN {
+	RS = "\n([ \t]+\n)+";
+	FS = " ";
+	split(x, F);
+	printf("(");
+	for (i=1; i<=length(F); i++) {
+		s = F[i];
+		sub(/#.*/, "z&z", s);
+		if (s ~ /^$/) { continue; };
+		printf(s);
+		if (i != length(F)) { printf("|"); };
+	};
+	printf(")");
+}')
+%__requires_exclude_from	%{__noautodep_helper %{__noautoreqfiles}}
+%__provides_exclude_from	%{__noautodep_helper %{__noautoprovfiles}}
+%__requires_exclude			%{__noautodep_helper %{__noautoreq}}
+%__provides_exclude			%{__noautodep_helper %{__noautoprov}}
 
 # helper for wrapping _noautoreq between perl() or pear()
 # Author: Elan Ruusamäe <glen@pld-linux.org>
