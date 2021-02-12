@@ -1153,15 +1153,17 @@ fi; \
 	RS = "\n([ \t]+\n)+";
 	FS = " ";
 	split(x, F);
-	printf("(");
-	for (i=1; i<=length(F); i++) {
-		s = F[i];
-		sub(/#.*/, "z&z", s);
-		if (s ~ /^$/) { continue; };
-		printf(s);
-		if (i != length(F)) { printf("|"); };
-	};
-	printf(")");
+	if (length(F) > 0) {
+		printf("(");
+		for (i=1; i<=length(F); i++) {
+			s = F[i];
+			sub(/#.*/, "z&z", s);
+			if (s ~ /^$/) { continue; };
+			printf(s);
+			if (i != length(F)) { printf("|"); };
+		};
+		printf(")");
+	}
 }')
 %__requires_exclude_from	%{__noautodep_helper %{__noautoreqfiles}}
 %__provides_exclude_from	%{__noautodep_helper %{__noautoprovfiles}}
