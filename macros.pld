@@ -1165,10 +1165,10 @@ fi; \
 		printf(")");
 	}
 }')
-%__requires_exclude_from	%{__noautodep_helper %{__noautoreqfiles}}
-%__provides_exclude_from	%{__noautodep_helper %{__noautoprovfiles}}
-%__requires_exclude			%{__noautodep_helper %{__noautoreq}}
-%__provides_exclude			%{__noautodep_helper %{__noautoprov}}
+%__requires_exclude_from	%{__noautodep_helper %{__noautoreqfiles}}%{nil}
+%__provides_exclude_from	%{__noautodep_helper %{__noautoprovfiles}}%{nil}
+%__requires_exclude			%{__noautodep_helper %{__noautoreq}}%{nil}
+%__provides_exclude			%{__noautodep_helper %{__noautoprov}}%{nil}
 
 # helper for wrapping _noautoreq between perl() or pear()
 # Author: Elan Ruusamäe <glen@pld-linux.org>
