@@ -459,7 +459,7 @@ pakietu oraz przy odpluskwianiu samego pakietu.\
 %{?__cxx:CXX="${CXX:-%{__cxx}}"} \\\
 CPPFLAGS="${CPPFLAGS:-%{rpmcppflags}}" \\\
 %{__cmake} \\\
-	-DCMAKE_VERBOSE_MAKEFILE=BOOL:ON \\\
+	-DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \\\
 	-DCMAKE_BUILD_TYPE=%{!?debug:PLD}%{?debug:Debug} \\\
 	-DCMAKE_INSTALL_BINDIR:PATH=%{_bindir} \\\
 	-DCMAKE_INSTALL_SBINDIR:PATH=%{_sbindir} \\\
