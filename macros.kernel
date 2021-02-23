@@ -1,7 +1,5 @@
 # vim:ts=4 sw=4 noet ft=spec
 # Kernel specific macro definitions.
-# To make use of these macros insert the following line into your spec file:
-# %{load:%{_usrlibrpm}/macros.d/kernel}
 
 %__modinfo		/sbin/modinfo
 
@@ -166,6 +164,15 @@ done)
 	ARCH=%{_target_base_arch} CROSS_COMPILE=%{_target_cpu}-pld-linux- \\\
 	%endif															\\\
 %else																\\\
+	%ifarch aarch64													\\\
+	ARCH=arm64														\\\
+	%endif															\\\
+	%ifarch ppc ppc64												\\\
+	ARCH=powerpc													\\\
+	%endif															\\\
+	%ifnarch aarch64 ppc ppc64										\\\
+	ARCH=%{_target_base_arch}										\\\
+	%endif															\\\
 	CC="%{__cc}"													\\\
 %endif																\
 %define	MakeOpts HOSTCC="%{__cc}" SYSSRC=%{_kernelsrcdir} SYSOUT=$PWD/o \\\\\\\
