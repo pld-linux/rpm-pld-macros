@@ -1,4 +1,4 @@
-%define		rpm_macros_rev	2.000
+%define		rpm_macros_rev	2.001
 %define		find_lang_rev	1.40
 # split into individual X_prov_ver if there is a reason to desync
 %define		prov_ver	4.15
@@ -6,7 +6,7 @@ Summary:	PLD Linux RPM macros
 Summary(pl.UTF-8):	Makra RPM dla Linuksa PLD
 Name:		rpm-pld-macros
 Version:	%{rpm_macros_rev}
-Release:	3
+Release:	1
 License:	GPL v2+
 Group:		Development/Building
 Source0:	macros.pld
@@ -54,6 +54,7 @@ Source54:	macros.selinux
 Source60:	macros.gstreamer
 Source61:	attr.gstreamer
 
+Source62:	kmod-deps.sh
 Patch0:		disable-systemd.patch
 BuildRequires:	rpm >= 4.4.9-56
 BuildRequires:	sed >= 4.0
@@ -196,6 +197,7 @@ cp -p %{SOURCE9} $RPM_BUILD_ROOT%{_usrlibrpm}/find-spec-bcond
 
 cp -p %{SOURCE5} $RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/macros.kernel
 cp -p %{SOURCE6} $RPM_BUILD_ROOT%{_usrlibrpm}/fileattrs/kernel.attr
+cp -p %{SOURCE62} $RPM_BUILD_ROOT%{_usrlibrpm}/kmod-deps.sh
 
 cp -p service_generator.sh $RPM_BUILD_ROOT%{_usrlibrpm}
 cp -p %{SOURCE3} $RPM_BUILD_ROOT%{_usrlibrpm}/find-lang.sh
@@ -277,6 +279,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_usrlibrpm}/dokuwiki-find-lang.sh
 %attr(755,root,root) %{_usrlibrpm}/find-lang.sh
 %attr(755,root,root) %{_usrlibrpm}/find-spec-bcond
+%attr(755,root,root) %{_usrlibrpm}/kmod-deps.sh
 %attr(755,root,root) %{_usrlibrpm}/service_generator.sh
 
 %files rubyprov
