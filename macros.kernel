@@ -83,7 +83,7 @@ done)
 
 %_kernel_version_code	 %( \\
 	Z=$(awk '/LINUX_VERSION_CODE/{print $3}' %{_kernelsrcdir}/include/linux/version.h 2>/dev/null); \\
-	echo ${Z:-ERROR}; \\
+	echo ${Z:-16777215}; \\
 )
 
 %_kernel_version_magic()	 %(echo $((%{1} * 65536 + %{2} * 256 + %{3})))
