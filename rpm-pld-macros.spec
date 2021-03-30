@@ -50,6 +50,7 @@ Source51:	macros.webapp
 Source52:	macros.xmms
 Source53:	macros.xorg
 Source54:	macros.selinux
+Source55:	macros.rust
 
 Source60:	macros.gstreamer
 Source61:	attr.gstreamer
@@ -234,6 +235,7 @@ cp -p %{SOURCE51} $RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/macros.webapp
 cp -p %{SOURCE52} $RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/macros.xmms
 cp -p %{SOURCE53} $RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/macros.xorg
 cp -p %{SOURCE54} $RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/macros.selinux
+cp -p %{SOURCE55} $RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/macros.rust
 
 cp -p %{SOURCE60} $RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/macros.gstreamer
 cp -p %{SOURCE61} $RPM_BUILD_ROOT%{_usrlibrpm}/fileattrs/gstreamer.attr
@@ -267,6 +269,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_usrlibrpm}/macros.d/macros.php
 %{_usrlibrpm}/macros.d/macros.python
 %{_usrlibrpm}/macros.d/macros.ruby
+%{_usrlibrpm}/macros.d/macros.rust
 %{_usrlibrpm}/macros.d/macros.selinux
 %{_usrlibrpm}/macros.d/macros.systemd
 %{_usrlibrpm}/macros.d/macros.tcl

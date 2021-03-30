@@ -576,23 +576,6 @@ LC_ALL=C.UTF-8 %{__meson} \
 %ninja_install LC_ALL=C.UTF-8 DESTDIR=%{buildroot} %{__ninja} install %{__ninja_common_opts}
 %ninja_test LC_ALL=C.UTF-8 %{__ninja} test %{__ninja_common_opts}
 
-# rust/cargo
-%debuginforustflags	%{expand:%%define __dic_%{?_enable_debug_packages} 1}%{?__dic_1: -g}%{expand:%%undefine __dic_%{?_enable_debug_packages}}
-%rpmrustflags	%debuginforustflags
-
-%__cargo	/usr/bin/cargo
-%__cargo_common_opts	-v --offline
-%cargo_build { \
-	RUSTFLAGS="${RUSTFLAGS:-%rpmrustflags}" \
-	%{?__jobs:CARGO_BUILD_JOBS="${CARGO_BUILD_JOBS:-%{__jobs}}"} \
-	%{__cargo} %{__cargo_common_opts} build %{!?debug:--release} \
-}
-%cargo_install { \
-	RUSTFLAGS="${RUSTFLAGS:-%rpmrustflags}" \
-	%{?__jobs:CARGO_BUILD_JOBS="${CARGO_BUILD_JOBS:-%{__jobs}}"} \
-	%{__cargo} %{__cargo_common_opts} install \
-}
-
 #----------------------------------------------------------------
 #%configure_cache 0
 %configure_cache_file	%{buildroot}.configure.cache
