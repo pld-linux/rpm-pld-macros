@@ -3,13 +3,20 @@
 
 %__cargo	/usr/bin/cargo
 %__cargo_common_opts	-v --offline
-%cargo_build { \
-	RUSTFLAGS="${RUSTFLAGS:-%rpmrustflags}" \
-	%{?__jobs:CARGO_BUILD_JOBS="${CARGO_BUILD_JOBS:-%{__jobs}}"} \
-	%{__cargo} %{__cargo_common_opts} build %{!?debug:--release} \
-}
-%cargo_install { \
-	RUSTFLAGS="${RUSTFLAGS:-%rpmrustflags}" \
-	%{?__jobs:CARGO_BUILD_JOBS="${CARGO_BUILD_JOBS:-%{__jobs}}"} \
-	%{__cargo} %{__cargo_common_opts} install \
-}
+%cargo_build \\\
+	RUSTFLAGS="${RUSTFLAGS:-%rpmrustflags}" \\\
+	%{?__jobs:CARGO_BUILD_JOBS="${CARGO_BUILD_JOBS:-%{__jobs}}"} \\\
+	%{__cargo} %{__cargo_common_opts} build %{!?debug:--release} \\\
+%ifarch x32 \
+	--target x86_64-unknown-linux-gnux32 \\\
+%endif \
+%{nil}
+
+%cargo_install \\\
+	RUSTFLAGS="${RUSTFLAGS:-%rpmrustflags}" \\\
+	%{?__jobs:CARGO_BUILD_JOBS="${CARGO_BUILD_JOBS:-%{__jobs}}"} \\\
+	%{__cargo} %{__cargo_common_opts} install \\\
+%ifarch x32 \
+	--target x86_64-unknown-linux-gnux32 \\\
+%endif \
+%{nil}
