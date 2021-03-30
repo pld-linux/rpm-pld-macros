@@ -1,5 +1,6 @@
 %debuginforustflags	%{expand:%%define __dic_%{?_enable_debug_packages} 1}%{?__dic_1: -g}%{expand:%%undefine __dic_%{?_enable_debug_packages}}
 %rpmrustflags	%debuginforustflags
+%rust_arches	%{x8664} %{ix86} x32 aarch64 armv6hl armv7hl armv7hnl
 
 %__cargo	/usr/bin/cargo
 %__cargo_common_opts	-v --offline
