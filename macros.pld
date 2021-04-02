@@ -138,7 +138,9 @@ pakietu oraz przy odpluskwianiu samego pakietu.\
 %ifnarch noarch\
 %global __debug_package 1\
 %_debuginfo_template\
-%{?_debugsource_packages:%_debugsource_template}\
+%if 0%{?_debugsource_packages}\
+%_debugsource_template\
+%endif\
 %endif\
 %{nil}
 
