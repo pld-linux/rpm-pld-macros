@@ -1,4 +1,4 @@
-%debuginforustflags	%{expand:%%define __dic_%{?_enable_debug_packages} 1}%{?__dic_1: -g}%{expand:%%undefine __dic_%{?_enable_debug_packages}}
+%debuginforustflags	-C debuginfo=%{expand:%%define __dic_%{?_enable_debug_packages} 1}%{?__dic_1:2}%{!?__dic_1:0}%{expand:%%undefine __dic_%{?_enable_debug_packages}}
 %rpmrustflags	%debuginforustflags
 %rust_arches	%{x8664} %{ix86} x32 aarch64 armv6hl armv7hl armv7hnl
 
