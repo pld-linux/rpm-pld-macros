@@ -670,7 +670,7 @@ LC_ALL=C.UTF-8 %{__meson} \
 %%prep\
 %{nil}
 
-%_build_id_links	%{expand:%%define __dic_%{?_enable_debug_packages} 1}%{?__dic_1:compat}%{?__dic_0:none}%{expand:%%undefine __dic_%{?_enable_debug_packages}}
+%_build_id_links	%{expand:%%define __dic_%{?_enable_debug_packages} 1}%{?__dic_1:alldebug}%{?__dic_0:none}%{expand:%%undefine __dic_%{?_enable_debug_packages}}
 
 # If non-empty "debug" macro defined, add "dbg" suffix to release number
 %_rpmfilename		%%{NAME}-%%{VERSION}-%%{RELEASE}%{?debug:dbg}.%%{ARCH}.rpm
