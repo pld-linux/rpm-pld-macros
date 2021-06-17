@@ -1,0 +1,21 @@
+%x86_with_3dnow		athlon
+%x86_with_mmx		%{x8664} x32 pentium2 pentium3 pentium4 athlon
+%x86_with_sse		%{x8664} x32 pentium3 pentium4
+%x86_with_sse2		%{x8664} x32 pentium4
+
+%armv4			armv4b armv4l armv4tl
+%armv5			armv5tl armv5tel armv5tejl
+%armv6			armv6l armv6hl
+%armv7			armv7l armv7hl armv7hnl
+%armv8			armv8l armv8hl armv8hnl armv8hcnl
+%arm32			%{armv4} %{armv5} %{armv6} %{armv7} %{armv8}
+%arm64			aarch64
+%arm32_with_hf		armv6hl armv7hl armv7hnl armv8hl armv8hnl armv8hcnl
+%arm64_with_hf		aarch64
+%arm_with_hf		%{arm32_with_hf} %{arm64_with_hf}
+%arm32_with_neon	armv7hnl armv8hnl armv8hcnl
+%arm64_with_neon	aarch64
+%arm_with_neon		%{arm32_with_neon} %{arm64_with_neon}
+
+%arch32			%{ix86} %{arm32} ppc sparc sparcv9
+%arch64			%{x8664} %{arm64} ppc64 sparc64
