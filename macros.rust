@@ -5,6 +5,9 @@
 %__cargo	/usr/bin/cargo
 %__cargo_common_opts	-v --offline
 %cargo_build \\\
+%ifarch x32 \
+	PKG_CONFIG_ALLOW_CROSS=1 \\\
+%endif \
 	RUSTFLAGS="${RUSTFLAGS:-%rpmrustflags}" \\\
 	%{?__jobs:CARGO_BUILD_JOBS="${CARGO_BUILD_JOBS:-%{__jobs}}"} \\\
 	%{__cargo} %{__cargo_common_opts} build %{!?debug:--release} \\\
@@ -14,6 +17,9 @@
 %{nil}
 
 %cargo_install \\\
+%ifarch x32 \
+	PKG_CONFIG_ALLOW_CROSS=1 \\\
+%endif \
 	RUSTFLAGS="${RUSTFLAGS:-%rpmrustflags}" \\\
 	%{?__jobs:CARGO_BUILD_JOBS="${CARGO_BUILD_JOBS:-%{__jobs}}"} \\\
 	%{__cargo} %{__cargo_common_opts} install \\\
