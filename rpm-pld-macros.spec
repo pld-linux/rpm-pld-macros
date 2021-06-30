@@ -1,4 +1,4 @@
-%define		rpm_macros_rev	2.006
+%define		rpm_macros_rev	2.007
 %define		find_lang_rev	1.40
 # split into individual X_prov_ver if there is a reason to desync
 %define		prov_ver	4.15
@@ -51,6 +51,7 @@ Source52:	macros.xmms
 Source53:	macros.xorg
 Source54:	macros.selinux
 Source55:	macros.rust
+Source56:	macros.arch
 
 Source60:	macros.gstreamer
 Source61:	attr.gstreamer
@@ -236,6 +237,7 @@ cp -p %{SOURCE52} $RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/macros.xmms
 cp -p %{SOURCE53} $RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/macros.xorg
 cp -p %{SOURCE54} $RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/macros.selinux
 cp -p %{SOURCE55} $RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/macros.rust
+cp -p %{SOURCE56} $RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/macros.arch
 
 cp -p %{SOURCE60} $RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/macros.gstreamer
 cp -p %{SOURCE61} $RPM_BUILD_ROOT%{_usrlibrpm}/fileattrs/gstreamer.attr
@@ -256,6 +258,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_usrlibrpm}/fileattrs/php.attr
 %{_usrlibrpm}/fileattrs/ruby.attr
 
+%{_usrlibrpm}/macros.d/macros.arch
 %{_usrlibrpm}/macros.d/macros.browser-plugins
 %{_usrlibrpm}/macros.d/macros.cacti
 %{_usrlibrpm}/macros.d/macros.emacs
