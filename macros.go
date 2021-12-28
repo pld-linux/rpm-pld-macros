@@ -2,34 +2,34 @@
 
 %__go	\\\
 %ifarch aarch64 \
-	GOARCH=arm64 \\\
+	GOARCH=${GOARCH-arm64} \\\
 %endif \
 %ifarch %{armv5} \
-	GOARCH=arm \\\
-	GOARM=5 \\\
+	GOARCH=${GOARCH-arm} \\\
+	GOARM=${GOARM-5} \\\
 %endif \
 %ifarch %{armv6} \
-	GOARCH=arm \\\
-	GOARM=6 \\\
+	GOARCH=${GOARCH-arm} \\\
+	GOARM=${GOARM-6} \\\
 %endif \
 %ifarch %{armv7} \
-	GOARCH=arm \\\
-	GOARM=7 \\\
+	GOARCH=${GOARCH-arm} \\\
+	GOARM=${GOARM-7} \\\
 %endif \
 %ifarch mipsel \
-	GOARCH=mipsle \\\
+	GOARCH=${GOARCH-mipsle} \\\
 %endif \
 %ifarch mips64el \
-	GOARCH=mips64le \\\
+	GOARCH=${GOARCH-mips64le} \\\
 %endif \
 %ifarch %{ix86} \
-	GOARCH=386 \\\
+	GOARCH=${GOARCH-386} \\\
 %endif \
 %ifarch %{x8664} \
-	GOARCH=amd64 \\\
+	GOARCH=${GOARCH-amd64} \\\
 %endif \
 %ifarch mips mips64 ppc64 ppc64le riscv64 s390x \
-	GOARCH=%{_arch} \\\
+	GOARCH=${GOARCH-%{_arch}} \\\
 %endif \
-	GOOS=linux \\\
+	GOOS=${GOOS-linux} \\\
 	/usr/bin/go
