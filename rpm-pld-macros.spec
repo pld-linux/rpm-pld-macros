@@ -1,4 +1,4 @@
-%define		rpm_macros_rev	2.009
+%define		rpm_macros_rev	2.010
 %define		find_lang_rev	1.40
 # split into individual X_prov_ver if there is a reason to desync
 %define		prov_ver	4.15
@@ -43,7 +43,6 @@ Source44:	macros.nagios
 Source45:	macros.openldap
 Source46:	macros.perl
 Source47:	macros.python
-Source48:	macros.systemd
 Source49:	macros.tcl
 Source50:	macros.upstart
 Source51:	macros.webapp
@@ -58,7 +57,6 @@ Source60:	macros.gstreamer
 Source61:	attr.gstreamer
 
 Source62:	kmod-deps.sh
-Patch0:		disable-systemd.patch
 BuildRequires:	rpm >= 4.4.9-56
 BuildRequires:	sed >= 4.0
 Obsoletes:	rpm-macros
@@ -85,6 +83,7 @@ Requires:	%{name} = %{version}-%{release}
 Requires:	findutils >= 1:4.2.26
 Provides:	rpmbuild(find_lang) = %{find_lang_rev}
 Provides:	rpmbuild(macros) = %{rpm_macros_rev}
+Requires:	rpm-macros-systemd
 Obsoletes:	rpm-build-macros
 Conflicts:	gettext-devel < 0.11
 # macros.d/*
@@ -169,11 +168,6 @@ pakietach RPM.
 cp -p %{SOURCE0} .
 cp -p %{SOURCE1} .
 
-%if "%{pld_release}" == "ac"
-%{__sed} -i -e '/libtoolize --copy --force --install/s/ --install//' macros.pld
-%patch0 -p1
-%endif
-
 %build
 %{__sed} -i -e 's,{Revision},%{rpm_macros_rev},' macros.pld
 
@@ -230,7 +224,6 @@ cp -p %{SOURCE44} $RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/macros.nagios
 cp -p %{SOURCE45} $RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/macros.openldap
 cp -p %{SOURCE46} $RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/macros.perl
 cp -p %{SOURCE47} $RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/macros.python
-cp -p %{SOURCE48} $RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/macros.systemd
 cp -p %{SOURCE49} $RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/macros.tcl
 cp -p %{SOURCE50} $RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/macros.upstart
 cp -p %{SOURCE51} $RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/macros.webapp
@@ -277,7 +270,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_usrlibrpm}/macros.d/macros.ruby
 %{_usrlibrpm}/macros.d/macros.rust
 %{_usrlibrpm}/macros.d/macros.selinux
-%{_usrlibrpm}/macros.d/macros.systemd
 %{_usrlibrpm}/macros.d/macros.tcl
 %{_usrlibrpm}/macros.d/macros.upstart
 %{_usrlibrpm}/macros.d/macros.webapp
