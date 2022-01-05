@@ -2,6 +2,33 @@
 %rpmrustflags	%debuginforustflags
 %rust_arches	%{x8664} %{ix86} x32 aarch64 armv6hl armv7hl armv7hnl
 
+%cargo_target	\\\
+%ifarch i586\
+i586-unknown-linux-gnu\\\
+%endif\
+%ifarch i686 pentium3 pentium4 athlon\
+i686-unknown-linux-gnu\\\
+%endif\
+%ifarch %{x8664}\
+x86_64-unknown-linux-gnu\\\
+%endif\
+%ifarch x32\
+x86_64-unknown-linux-gnux32\\\
+%endif\
+%ifarch aarch64\
+aarch64-unknown-linux-gnu\\\
+%endif\
+%ifarch armv6hl\
+arm-unknown-linux-gnueabihf\\\
+%endif\
+%ifarch armv7hl armv7hnl\
+armv7-unknown-linux-gnueabihf\\\
+%endif\
+%{nil}
+
+%cargo_targetdir	target
+%cargo_objdir		%{?buildsubdir:%{_builddir}/%{buildsubdir}/}%{cargo_targetdir}/%{cargo_target}/%{!?debug:release}%{?debug:debug}
+
 %__cargo	/usr/bin/cargo
 %__cargo_common_opts	-v --offline
 %cargo_build \\\
@@ -11,9 +38,8 @@
 	RUSTFLAGS="${RUSTFLAGS:-%rpmrustflags}" \\\
 	%{?__jobs:CARGO_BUILD_JOBS="${CARGO_BUILD_JOBS:-%{__jobs}}"} \\\
 	%{__cargo} %{__cargo_common_opts} build %{!?debug:--release} \\\
-%ifarch x32 \
-	--target x86_64-unknown-linux-gnux32 \\\
-%endif \
+	--target %{cargo_target} \\\
+	--target-dir %{cargo_targetdir} \\\
 %{nil}
 
 %cargo_install \\\
