@@ -32,6 +32,8 @@ armv7-unknown-linux-gnueabihf\\\
 %__cargo	/usr/bin/cargo
 %__cargo_common_opts	-v --offline
 %cargo_build \\\
+	CC="%{__cc}" \\\
+	CXX="%{__cxx}" \\\
 	PKG_CONFIG_ALLOW_CROSS=1 \\\
 	RUSTFLAGS="${RUSTFLAGS:-%rpmrustflags}" \\\
 	%{?__jobs:CARGO_BUILD_JOBS="${CARGO_BUILD_JOBS:-%{__jobs}}"} \\\
@@ -41,6 +43,8 @@ armv7-unknown-linux-gnueabihf\\\
 %{nil}
 
 %cargo_install \\\
+	CC="%{__cc}" \\\
+	CXX="%{__cxx}" \\\
 	PKG_CONFIG_ALLOW_CROSS=1 \\\
 	RUSTFLAGS="${RUSTFLAGS:-%rpmrustflags}" \\\
 	%{?__jobs:CARGO_BUILD_JOBS="${CARGO_BUILD_JOBS:-%{__jobs}}"} \\\
