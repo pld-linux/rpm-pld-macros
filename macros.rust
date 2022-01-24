@@ -37,6 +37,9 @@ thumbv7neon-unknown-linux-gnueabihf\\\
 %cargo_build \\\
 	CC="%{__cc}" \\\
 	CXX="%{__cxx}" \\\
+	CFLAGS="%{rpmcppflags} %{rpmcflags}" \\\
+	CXXFLAGS="%{rpmcppflags} %{rpmcxxflags}" \\\
+	LDFLAGS="%{rpmldflags}" \\\
 	PKG_CONFIG_ALLOW_CROSS=1 \\\
 	RUSTFLAGS="${RUSTFLAGS:-%rpmrustflags}" \\\
 	%{?__jobs:CARGO_BUILD_JOBS="${CARGO_BUILD_JOBS:-%{__jobs}}"} \\\
@@ -48,6 +51,9 @@ thumbv7neon-unknown-linux-gnueabihf\\\
 %cargo_install \\\
 	CC="%{__cc}" \\\
 	CXX="%{__cxx}" \\\
+	CFLAGS="%{rpmcppflags} %{rpmcflags}" \\\
+	CXXFLAGS="%{rpmcppflags} %{rpmcxxflags}" \\\
+	LDFLAGS="%{rpmldflags}" \\\
 	PKG_CONFIG_ALLOW_CROSS=1 \\\
 	RUSTFLAGS="${RUSTFLAGS:-%rpmrustflags}" \\\
 	%{?__jobs:CARGO_BUILD_JOBS="${CARGO_BUILD_JOBS:-%{__jobs}}"} \\\
