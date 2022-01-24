@@ -58,7 +58,6 @@ thumbv7neon-unknown-linux-gnueabihf\\\
 	RUSTFLAGS="${RUSTFLAGS:-%rpmrustflags}" \\\
 	%{?__jobs:CARGO_BUILD_JOBS="${CARGO_BUILD_JOBS:-%{__jobs}}"} \\\
 	%{__cargo} %{__cargo_common_opts} install \\\
-%ifarch x32 \
-	--target x86_64-unknown-linux-gnux32 \\\
-%endif \
+	--target %{cargo_target} \\\
+	--target-dir %{cargo_targetdir} \\\
 %{nil}
