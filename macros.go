@@ -1,4 +1,5 @@
 %go_arches	%{ix86} %{x8664} %{armv5} %{armv6} %{armv7} aarch64 mips mipsel mips64 mips64le ppc64 ppc64le riscv64 s390x
+%go_cachedir		%{?buildsubdir:%{_builddir}/%{buildsubdir}/}.go-cache
 
 %__go	\\\
 %ifarch aarch64 \
@@ -31,6 +32,7 @@
 %ifarch mips mips64 ppc64 ppc64le riscv64 s390x \
 	GOARCH=${GOARCH-%{_arch}} \\\
 %endif \
+	%{?go_cachedir:GOCACHE="%{go_cachedir}"} \\\
 	%{?__jobs:GOMAXPROCS=%{__jobs}} \\\
 	GOOS=${GOOS-linux} \\\
 	/usr/bin/go
