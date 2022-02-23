@@ -31,5 +31,6 @@
 %ifarch mips mips64 ppc64 ppc64le riscv64 s390x \
 	GOARCH=${GOARCH-%{_arch}} \\\
 %endif \
+	%{?__jobs:GOMAXPROCS=%{__jobs}} \\\
 	GOOS=${GOOS-linux} \\\
 	/usr/bin/go
