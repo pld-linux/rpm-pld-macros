@@ -32,7 +32,7 @@
 %ifarch mips mips64 ppc64 ppc64le riscv64 s390x \
 	GOARCH=${GOARCH-%{_arch}} \\\
 %endif \
-	%{?go_cachedir:GOCACHE="%{go_cachedir}"} \\\
+	%{?go_cachedir:GOCACHE="${GOCACHE-%{go_cachedir}}"} \\\
 	%{?__jobs:GOMAXPROCS=%{__jobs}} \\\
 	GOOS=${GOOS-linux} \\\
 	/usr/bin/go
