@@ -25,6 +25,11 @@
 %endif \
 %ifarch %{ix86} \
 	GOARCH=${GOARCH-386} \\\
+%ifarch %{x86_with_sse2} \
+	GO386=${GO386-sse2} \\\
+%else \
+	GO386=${GO386-softfloat} \\\
+%endif \
 %endif \
 %ifarch %{x8664} \
 	GOARCH=${GOARCH-amd64} \\\
