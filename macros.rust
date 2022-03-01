@@ -31,7 +31,7 @@ thumbv7neon-unknown-linux-gnueabihf\\\
 
 %cargo_target	%rust_target
 %cargo_targetdir	target
-%cargo_objdir		%{?buildsubdir:%{_builddir}/%{buildsubdir}/}%{cargo_targetdir}/%{cargo_target}/%{!?debug:release}%{?debug:debug}
+%cargo_objdir		%{?buildsubdir:%{_builddir}/%{buildsubdir}/}%{cargo_targetdir}/%{rust_target}/%{!?debug:release}%{?debug:debug}
 
 %__cargo	/usr/bin/cargo
 %__cargo_common_opts	-v --offline
@@ -45,7 +45,7 @@ thumbv7neon-unknown-linux-gnueabihf\\\
 	RUSTFLAGS="${RUSTFLAGS:-%rpmrustflags}" \\\
 	%{?__jobs:CARGO_BUILD_JOBS="${CARGO_BUILD_JOBS:-%{__jobs}}"} \\\
 	%{__cargo} %{__cargo_common_opts} build %{!?debug:--release} \\\
-	--target %{cargo_target} \\\
+	--target %{rust_target} \\\
 	--target-dir %{cargo_targetdir} \\\
 %{nil}
 
@@ -59,6 +59,6 @@ thumbv7neon-unknown-linux-gnueabihf\\\
 	RUSTFLAGS="${RUSTFLAGS:-%rpmrustflags}" \\\
 	%{?__jobs:CARGO_BUILD_JOBS="${CARGO_BUILD_JOBS:-%{__jobs}}"} \\\
 	%{__cargo} %{__cargo_common_opts} install \\\
-	--target %{cargo_target} \\\
+	--target %{rust_target} \\\
 	--target-dir %{cargo_targetdir} \\\
 %{nil}
