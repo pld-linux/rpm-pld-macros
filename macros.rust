@@ -2,7 +2,7 @@
 %rpmrustflags	%debuginforustflags
 %rust_arches	%{x8664} %{ix86} x32 aarch64 armv6hl armv7hl armv7hnl
 
-%cargo_target	\\\
+%rust_target	\\\
 %ifarch i586\
 i586-unknown-linux-gnu\\\
 %endif\
@@ -29,6 +29,7 @@ thumbv7neon-unknown-linux-gnueabihf\\\
 %endif\
 %{nil}
 
+%cargo_target	%rust_target
 %cargo_targetdir	target
 %cargo_objdir		%{?buildsubdir:%{_builddir}/%{buildsubdir}/}%{cargo_targetdir}/%{cargo_target}/%{!?debug:release}%{?debug:debug}
 
