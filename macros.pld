@@ -193,7 +193,7 @@ pakietu oraz przy odpluskwianiu samego pakietu.\
 %debugcppflags	%{nil}
 %debugldflags	%{nil}
 
-%optldflags	-Wl,--as-needed -Wl,--no-copy-dt-needed-entries -Wl,-z,relro -Wl,-z,combreloc
+%optldflags	-Wl,--as-needed -Wl,--no-copy-dt-needed-entries -Wl,-z,relro -Wl,-z,combreloc %{?use_ld:-Wl,-fuse-ld=%{use_ld}}
 %optcppflags	%{nil}
 
 # common compilation flags
