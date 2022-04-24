@@ -59,7 +59,7 @@ Source61:	attr.gstreamer
 Source62:	kmod-deps.sh
 BuildRequires:	rpm >= 4.4.9-56
 BuildRequires:	sed >= 4.0
-Obsoletes:	rpm-macros
+Obsoletes:	rpm-macros < 1.254
 # rm: option `--interactive' doesn't allow an argument
 Conflicts:	coreutils < 6.9
 # tmpdir/_tmppath macros problems; optcppflags missing
@@ -84,7 +84,7 @@ Requires:	findutils >= 1:4.2.26
 Provides:	rpmbuild(find_lang) = %{find_lang_rev}
 Provides:	rpmbuild(macros) = %{rpm_macros_rev}
 Requires:	rpm-macros-systemd
-Obsoletes:	rpm-build-macros
+Obsoletes:	rpm-build-macros < 1.745
 Conflicts:	gettext-devel < 0.11
 # macros.d/*
 Conflicts:	rpm-build < 5.4.15-52
@@ -114,6 +114,7 @@ Requires:	ruby-modules
 Requires:	ruby-rubygems
 Provides:	rpm-rubyprov = %{prov_ver}
 Obsoletes:	rpm-rubyprov
+# < 5.4.15-52 (use Epoch in Provides to be lower than Provides?)
 
 %description rubyprov
 Ruby tools, which simplifies creation of RPM packages with Ruby
@@ -136,6 +137,7 @@ Requires:	mktemp
 Requires:	unzip
 Provides:	rpm-javaprov = %{prov_ver}
 Obsoletes:	rpm-javaprov
+# < 5.4.15-52 (use Epoch in Provides to be lower than Provides?)
 
 %description javaprov
 Additional utilities for checking Java provides/requires in RPM
@@ -154,6 +156,7 @@ Requires:	sed >= 4.0
 Suggests:	php-pear-PHP_CompatInfo
 Provides:	rpm-php-pearprov = %{prov_ver}
 Obsoletes:	rpm-php-pearprov
+# < 5.4.15-52 (use Epoch in Provides to be lower than Provides?)
 
 %description php-pearprov
 Additional utilities for checking PHP PEAR provides/requires in RPM
