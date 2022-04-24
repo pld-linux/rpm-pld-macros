@@ -1,4 +1,4 @@
-%define		rpm_macros_rev	2.014
+%define		rpm_macros_rev	2.015
 %define		find_lang_rev	1.40
 # split into individual X_prov_ver if there is a reason to desync
 %define		prov_ver	4.15
@@ -6,7 +6,7 @@ Summary:	PLD Linux RPM macros
 Summary(pl.UTF-8):	Makra RPM dla Linuksa PLD
 Name:		rpm-pld-macros
 Version:	%{rpm_macros_rev}
-Release:	2
+Release:	1
 License:	GPL v2+
 Group:		Development/Building
 Source0:	macros.pld
@@ -57,6 +57,7 @@ Source60:	macros.gstreamer
 Source61:	attr.gstreamer
 
 Source62:	kmod-deps.sh
+Source63:	attr.mono
 BuildRequires:	rpm >= 4.4.9-56
 BuildRequires:	sed >= 4.0
 Obsoletes:	rpm-macros < 1.254
@@ -239,6 +240,7 @@ cp -p %{SOURCE57} $RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/macros.go
 
 cp -p %{SOURCE60} $RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/macros.gstreamer
 cp -p %{SOURCE61} $RPM_BUILD_ROOT%{_usrlibrpm}/fileattrs/gstreamer.attr
+cp -p %{SOURCE63} $RPM_BUILD_ROOT%{_usrlibrpm}/fileattrs/mono.attr
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -253,6 +255,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_usrlibrpm}/fileattrs/java.attr
 %{_usrlibrpm}/fileattrs/gstreamer.attr
 %{_usrlibrpm}/fileattrs/kernel.attr
+%{_usrlibrpm}/fileattrs/mono.attr
 %{_usrlibrpm}/fileattrs/php.attr
 %{_usrlibrpm}/fileattrs/ruby.attr
 
