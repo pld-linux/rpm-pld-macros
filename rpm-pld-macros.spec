@@ -1,4 +1,4 @@
-%define		rpm_macros_rev	2.015
+%define		rpm_macros_rev	2.016
 %define		find_lang_rev	1.40
 # split into individual X_prov_ver if there is a reason to desync
 %define		prov_ver	4.15
@@ -52,6 +52,7 @@ Source54:	macros.selinux
 Source55:	macros.rust
 Source56:	macros.arch
 Source57:	macros.go
+Source58:	macros.qt
 
 Source60:	macros.gstreamer
 Source61:	attr.gstreamer
@@ -237,6 +238,7 @@ cp -p %{SOURCE54} $RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/macros.selinux
 cp -p %{SOURCE55} $RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/macros.rust
 cp -p %{SOURCE56} $RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/macros.arch
 cp -p %{SOURCE57} $RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/macros.go
+cp -p %{SOURCE58} $RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/macros.qt
 
 cp -p %{SOURCE60} $RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/macros.gstreamer
 cp -p %{SOURCE61} $RPM_BUILD_ROOT%{_usrlibrpm}/fileattrs/gstreamer.attr
@@ -273,6 +275,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_usrlibrpm}/macros.d/macros.perl
 %{_usrlibrpm}/macros.d/macros.php
 %{_usrlibrpm}/macros.d/macros.python
+%{_usrlibrpm}/macros.d/macros.qt
 %{_usrlibrpm}/macros.d/macros.ruby
 %{_usrlibrpm}/macros.d/macros.rust
 %{_usrlibrpm}/macros.d/macros.selinux

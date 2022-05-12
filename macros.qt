@@ -1,0 +1,11 @@
+%_qt5_qmake	/usr/bin/qmake-qt5
+%qmake_qt5	%{_qt5_qmake} \\\
+	%{?__cc:QMAKE_CC="%{__cc}"} \\\
+	%{?__cxx:QMAKE_CXX="%{__cxx}"} \\\
+	QMAKE_CFLAGS_RELEASE="${CFLAGS:-%rpmcflags %rpmcppflags}" \\\
+	QMAKE_CFLAGS_DEBUG="${CFLAGS:-%rpmcflags %rpmcppflags}" \\\
+	QMAKE_CXXFLAGS_RELEASE="${CXXFLAGS:-%rpmcxxflags %rpmcppflags}" \\\
+	QMAKE_CXXFLAGS_DEBUG="${CXXFLAGS:-%rpmcxxflags %rpmcppflags}" \\\
+	QMAKE_LFLAGS_RELEASE="${LDFLAGS:-%rpmldflags}" \\\
+	QMAKE_LFLAGS_DEBUG="${LDFLAGS:-%rpmldflags}" \\\
+%{nil}
