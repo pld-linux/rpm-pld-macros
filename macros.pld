@@ -1179,10 +1179,12 @@ fi; \
 	%{?_noautoreq_py3egg: %{__noauto_regexp_helper -p python3egg %{_noautoreq_py3egg}}} \
 	%{nil}
 
-%__noautodep_helper() %(awk -v x="%*" 'BEGIN {
+%__noautodep_helper() %(echo '%*' | awk 'BEGIN {
 	RS = "\n([ \t]+\n)+";
 	FS = " ";
-	split(x, F);
+}
+{
+	split($0, F);
 	if (length(F) > 0) {
 		printf("(");
 		for (i=1; i<=length(F); i++) {
@@ -1221,7 +1223,7 @@ fi; \
 # %define _noautoprov_pyegg excluded
 # %define _noautoprov_py3egg excluded3
 #
-%__noauto_regexp_helper(p:) %(echo "%*" | awk 'BEGIN{RS=" "}{printf("%{-p*}%{__qchar}(%%s%{__qchar}) ", $1)}')
+%__noauto_regexp_helper(p:) %(echo '%*' | awk 'BEGIN{RS=" "}{printf("%{-p*}%{__qchar}(%%s%{__qchar}) ", $1)}')
 # detect quote character runtime
 %__qchar_4 \\\\%{nil}
 %__qchar_5 \\\\\\%{nil}
