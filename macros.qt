@@ -9,3 +9,15 @@
 	QMAKE_LFLAGS_RELEASE="${LDFLAGS:-%rpmldflags}" \\\
 	QMAKE_LFLAGS_DEBUG="${LDFLAGS:-%rpmldflags}" \\\
 %{nil}
+
+%_qt6_qmake	/usr/bin/qmake-qt6
+%qmake_qt6	%{_qt6_qmake} \\\
+	%{?__cc:QMAKE_CC="%{__cc}"} \\\
+	%{?__cxx:QMAKE_CXX="%{__cxx}"} \\\
+	QMAKE_CFLAGS_RELEASE="${CFLAGS:-%rpmcflags %rpmcppflags}" \\\
+	QMAKE_CFLAGS_DEBUG="${CFLAGS:-%rpmcflags %rpmcppflags}" \\\
+	QMAKE_CXXFLAGS_RELEASE="${CXXFLAGS:-%rpmcxxflags %rpmcppflags}" \\\
+	QMAKE_CXXFLAGS_DEBUG="${CXXFLAGS:-%rpmcxxflags %rpmcppflags}" \\\
+	QMAKE_LFLAGS_RELEASE="${LDFLAGS:-%rpmldflags}" \\\
+	QMAKE_LFLAGS_DEBUG="${LDFLAGS:-%rpmldflags}" \\\
+%{nil}
