@@ -112,12 +112,12 @@ done)
 	if [ -d $RPM_BUILD_ROOT/lib/modules ]; then \
 		tool=$(%{kmod_compress_cmd} --version | head -n1); \
 		case "$tool" in gzip*) ext=gz;; xz*) ext=xz;; esac; \
-		q=$(find $RPM_BUILD_ROOT/lib/modules -name '*o' -type f -print); \
+		q=$(find $RPM_BUILD_ROOT/lib/modules -name '*.ko' -type f -print); \
 		if [ "$q" ]; then \
 			printf "Compress %d kernel modules..." $(echo "$q" | wc -l); \
 			echo "$q" | xargs -r %{kmod_compress_cmd}; \
 			echo "DONE"; \
-			find $RPM_BUILD_ROOT/lib/modules -name '*o' -type l -printf "%p %l\n" | \
+			find $RPM_BUILD_ROOT/lib/modules -name '*.ko' -type l -printf "%p %l\n" | \
 			while read a b; do ln -sf $b.$ext $a.$ext; rm -f $a; done; \
 		fi; \
 	fi; \
