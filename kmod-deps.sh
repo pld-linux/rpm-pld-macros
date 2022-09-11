@@ -3,7 +3,7 @@
 # Kernel module dependency extractor.
 #
 # Author(s):	Danny Tholen <obiwan@mandriva.org>
-#	     	Olivier Blin <blino@mandriva.org>
+#		Olivier Blin <blino@mandriva.org>
 #		Per Øyvind Karlsen <peroyvind@mandriva.org>
 # 
 
@@ -34,7 +34,7 @@ fi
 
 if [ $provides -eq 1 ]; then
     provideslist=`sed "s/['\"]/\\\&/g"`
-    modulelist=$(echo "$provideslist" | egrep '^.*(/lib/modules/|/var/lib/dkms/).*\.ko(\.gz|\.xz)?$')
+    modulelist=$(echo "$provideslist" | grep -E '^.*(/lib/modules/|/var/lib/dkms/).*\.ko(\.gz|\.xz)?$')
     echo $modulelist | xargs -r $modinfo | \
 	perl -lne '
     $name = $1 if m!^filename:\s*(?:.*/)?([^/]+)\.k?o!;
@@ -45,7 +45,7 @@ if [ $provides -eq 1 ]; then
 	undef $name; undef $ver;
     }
     '
-    dkmslist=$(echo "$provideslist" | egrep '(/var/lib/dkms-binary/[^/]+/[^/]+|/usr/src)/[^/]+/dkms.conf$')
+    dkmslist=$(echo "$provideslist" | grep -E '(/var/lib/dkms-binary/[^/]+/[^/]+|/usr/src)/[^/]+/dkms.conf$')
     [ -n "$dkmslist" ] && for d in $dkmslist; do
 	VERSION=`sed -rne 's/^PACKAGE_VERSION="?([^"]+)"?$/\1/;T;p' $d`
 	[ -z "$VERSION" ] && continue
