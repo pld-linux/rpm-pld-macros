@@ -56,6 +56,7 @@ Additional options:
   --with-omf		find OMF files
   --with-qm			find QT .qm files
   --with-django		find translations in Django project
+  --with-dokuwiki	find translations in dokuwiki plugins/templates
   --all-name		match all package/domain names
   --without-mo		skip *.mo locale files
   -o NAME			output will be saved to NAME
@@ -90,6 +91,7 @@ KDE='#'
 OMF='#'
 QM='#'
 DJANGO='#'
+DOKUWIKI=false
 MO=''
 OUTPUT=$NAME.lang
 ALL_NAME='#'
@@ -97,6 +99,11 @@ NO_ALL_NAME=''
 APPEND=''
 while test $# -gt 0; do
     case "$1" in
+	--with-dokuwiki)
+		DOKUWIKI=true
+		echo >&2 "$PROG: Enabling with Dokuwiki"
+		shift
+		;;
 	--with-gnome)
   		GNOME=''
 		echo >&2 "$PROG: Enabling with GNOME"
@@ -155,6 +162,12 @@ while test $# -gt 0; do
 		;;
     esac
 done
+
+if $DOKUWIKI; then
+	exec /usr/lib/rpm/dokuwiki-find-lang.sh "$TOP_DIR" "$NAME"
+	echo >&2 "$PROG: ERROR: Unable to execute dokuwiki-find-lang"
+	exit 2
+fi
 
 echo >&2 "$PROG/$VERSION: find-lang '$NAME' $APPEND> $OUTPUT"
 
