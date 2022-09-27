@@ -1,5 +1,5 @@
 %define		rpm_macros_rev	2.019
-%define		find_lang_rev	1.40
+%define		find_lang_rev	1.41
 # split into individual X_prov_ver if there is a reason to desync
 %define		prov_ver	4.15
 Summary:	PLD Linux RPM macros

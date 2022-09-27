@@ -36,7 +36,7 @@
 #   * start support for KDE help files
 
 PROG=${0##*/}
-VERSION=1.40
+VERSION=1.41
 
 usage () {
 cat <<EOF
