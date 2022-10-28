@@ -281,10 +281,10 @@ pakietu oraz przy odpluskwianiu samego pakietu.\
 	elif [ -d $HOME/rpm/SPECS -a -d $HOME/rpm/SOURCES ]; then \
 		# if old style rpm dir exist, go with it
 		echo $HOME/rpm; \
-	elif [ -x ../builder -a ! -d ../builder ]; then
+	elif [ -x ../builder -a ! -d ../builder ] && [ "$(realpath -s ../builder)" != "/usr/bin/builder" ]; then
 		# relative new style rpmdir: in package dir
 		cd ..; pwd
-	elif [ -x builder -a ! -d builder ]; then
+	elif [ -x builder -a ! -d builder ] && [ "$(realpath -s builder)" != "/usr/bin/builder" ]; then
 		# relative new style rpmdir: in packages
 		pwd
 	elif [ -x packages/builder -a ! -d packages/builder ]; then
