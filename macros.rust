@@ -1,5 +1,5 @@
 %debuginforustflags	-C debuginfo=%{expand:%%define __dic_%{?_enable_debug_packages} 1}%{?__dic_1:2}%{!?__dic_1:0}%{expand:%%undefine __dic_%{?_enable_debug_packages}} -C strip=none
-%rpmrustflags	%debuginforustflags
+%rpmrustflags	--target %rust_target %debuginforustflags
 %rust_arches	%{x8664} %{ix86} x32 aarch64 armv6hl armv7hl armv7hnl
 
 %rust_target	\\\
@@ -33,6 +33,7 @@ thumbv7neon-unknown-linux-gnueabihf\\\
 %cargo_targetdir	target
 %cargo_objdir		%{?buildsubdir:%{_builddir}/%{buildsubdir}/}%{cargo_targetdir}/%{rust_target}/%{!?debug:release}%{?debug:debug}
 
+%__rustc	/usr/bin/rustc
 %__cargo	/usr/bin/cargo
 %__cargo_common_opts	-v --offline
 %cargo_build \\\
@@ -42,11 +43,11 @@ thumbv7neon-unknown-linux-gnueabihf\\\
 	CXXFLAGS="%{rpmcppflags} %{rpmcxxflags}" \\\
 	LDFLAGS="%{rpmldflags}" \\\
 	PKG_CONFIG_ALLOW_CROSS=1 \\\
+	RUSTC="${RUSTC:-%__rustc}" \\\
 	%{?rustc_wrapper:RUSTC_WRAPPER="${RUSTC_WRAPPER:-%rustc_wrapper}"} \\\
 	RUSTFLAGS="${RUSTFLAGS:-%rpmrustflags}" \\\
 	%{?__jobs:CARGO_BUILD_JOBS="${CARGO_BUILD_JOBS:-%{__jobs}}"} \\\
 	%{__cargo} %{__cargo_common_opts} build %{!?debug:--release} \\\
-	--target %{rust_target} \\\
 	--target-dir %{cargo_targetdir} \\\
 %{nil}
 
@@ -57,9 +58,10 @@ thumbv7neon-unknown-linux-gnueabihf\\\
 	CXXFLAGS="%{rpmcppflags} %{rpmcxxflags}" \\\
 	LDFLAGS="%{rpmldflags}" \\\
 	PKG_CONFIG_ALLOW_CROSS=1 \\\
+	RUSTC="${RUSTC:-%__rustc}" \\\
+	%{?rustc_wrapper:RUSTC_WRAPPER="${RUSTC_WRAPPER:-%rustc_wrapper}"} \\\
 	RUSTFLAGS="${RUSTFLAGS:-%rpmrustflags}" \\\
 	%{?__jobs:CARGO_BUILD_JOBS="${CARGO_BUILD_JOBS:-%{__jobs}}"} \\\
 	%{__cargo} %{__cargo_common_opts} install \\\
-	--target %{rust_target} \\\
 	--target-dir %{cargo_targetdir} \\\
 %{nil}
