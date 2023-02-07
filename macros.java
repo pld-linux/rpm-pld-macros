@@ -43,6 +43,28 @@
 # insead of the system default
 #%use_jdk		icedtea6
 
+# Lower bound for JDK version.
+# In case of `%use_default_jdk %{expr:%min_jdk_version-1}` use %min_jdk_version
+%min_jdk_version		8
+
+# Default JDK provider and version
+%default_jdk_provider	openjdk
+%default_jdk_version	%min_jdk_version
+
+# Name of default JDK, takes requested minimum version as argument or if not
+# given defaults to %default_jdk_version. Result is is either:
+# - %{expand:%%default_jdk<requested version>}
+# - %{expand:%%default_jdk_provider}<requested version>
+#
+# Examples for overriding:
+# - specific JDK: --define 'default_jdk8 oracle8'
+# - JDK provider: --define 'default_jdk_provider oracle'
+# - JDK version: --define 'default_jdk_version 11'
+%default_jdk()			%{expand:%%define __jdk_v %{?1}%{!?1:%default_jdk_version}}%{expand:%%define __jdk_vf %{expr:%__jdk_v < %min_jdk_version ? %min_jdk_version : %__jdk_v}}%{expand:%%{?default_jdk%{__jdk_vf}}}%{expand:%%{!?default_jdk%{__jdk_vf}:%default_jdk_provider%{__jdk_vf}}}%{expand:%%undefine __jdk_vf}%{expand:%%undefine __jdk_v}
+
+# Use default JDK in spec, optionally takes requested minimum version as argument
+%use_default_jdk()		%{expand:%%global use_jdk %{default_jdk %*}}
+
 # expands to the value with right jdk for BuildRequires header
 # 'jdk' if %%use_jdk is not defined,  jdk(%%use_jdk) otherwise
 # The requirement will not replace current 'default' JDK
