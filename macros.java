@@ -63,7 +63,7 @@
 %default_jdk()			%{expand:%%define __jdk_v %{?1}%{!?1:%default_jdk_version}}%{expand:%%define __jdk_vf %{expr:%__jdk_v < %min_jdk_version ? %min_jdk_version : %__jdk_v}}%{expand:%%{?default_jdk%{__jdk_vf}}}%{expand:%%{!?default_jdk%{__jdk_vf}:%default_jdk_provider%{__jdk_vf}}}%{expand:%%undefine __jdk_vf}%{expand:%%undefine __jdk_v}
 
 # Use default JDK in spec, optionally takes requested minimum version as argument
-%use_default_jdk()		%{expand:%%global use_jdk %{default_jdk %*}}
+%use_default_jdk()		%{expand:%%global use_jdk %{default_jdk %{?*}}}
 
 # expands to the value with right jdk for BuildRequires header
 # 'jdk' if %%use_jdk is not defined,  jdk(%%use_jdk) otherwise
