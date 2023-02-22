@@ -25,7 +25,7 @@
 %_lispdir			%{_datadir}/emacs/site-lisp
 %_initddir			%{_sysconfdir}/rc.d/init.d
 
-%_metainfodir	%{_datadir}/appdata
+%_metainfodir	%{_datadir}/metainfo
 
 %_defaultdocdir		%{_usr}/share/doc
 
