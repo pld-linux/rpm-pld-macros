@@ -25,6 +25,8 @@
 %_lispdir			%{_datadir}/emacs/site-lisp
 %_initddir			%{_sysconfdir}/rc.d/init.d
 
+%_metainfodir	%{_datadir}/appdata
+
 %_defaultdocdir		%{_usr}/share/doc
 
 %_fmoddir		%{_libdir}/gfortran/modules
