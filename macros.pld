@@ -489,7 +489,11 @@ CPPFLAGS="${CPPFLAGS:-%{rpmcppflags}}" \\\
 	-DCMAKE_BUILD_TYPE=%{!?debug:PLD}%{?debug:Debug} \\\
 	-DCMAKE_SYSTEM_NAME=Linux \\\
 	-DCMAKE_CROSSCOMPILING:BOOL=FALSE \\\
+%ifarch x32\
+	-DCMAKE_SYSTEM_PROCESSOR=x86_64 \\\
+%else\
 	-DCMAKE_SYSTEM_PROCESSOR=%{_target_cpu} \\\
+%endif\
 	-DCMAKE_INSTALL_BINDIR:PATH=%{_bindir} \\\
 	-DCMAKE_INSTALL_SBINDIR:PATH=%{_sbindir} \\\
 	-DCMAKE_INSTALL_LIBEXECDIR:PATH=%{_libexecdir} \\\
