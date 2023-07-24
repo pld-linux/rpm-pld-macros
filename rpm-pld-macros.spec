@@ -1,4 +1,4 @@
-%define		rpm_macros_rev	2.025
+%define		rpm_macros_rev	2.026
 %define		find_lang_rev	1.41
 # split into individual X_prov_ver if there is a reason to desync
 %define		prov_ver	4.15
