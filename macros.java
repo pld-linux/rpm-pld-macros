@@ -49,7 +49,7 @@
 
 # Default JDK provider and version
 %default_jdk_provider	openjdk
-%default_jdk_version	%min_jdk_version
+%default_jdk_version	11
 
 # Name of default JDK, takes requested minimum version as argument or if not
 # given defaults to %default_jdk_version. Result is is either:
