@@ -39,7 +39,7 @@
 
 # Location of pkgconfig files
 %_pkgconfigdir	/usr/%{_lib}/pkgconfig
-# noarch pkgconfig files
+# noarch pkgconfig files (since 1.446)
 %_npkgconfigdir	/usr/share/pkgconfig
 
 # Location of desktop files
@@ -55,13 +55,13 @@
 # Location of fonts directories
 %_fontsdir	/usr/share/fonts
 
-# Location of Gtk and associated libraries documentation
+# Location of Gtk and associated libraries documentation (since 1.98)
 %_gtkdocdir	%{_defaultdocdir}/gtk-doc/html
 
 # Common subdirectory for gi-docgen generated libraries documentation (since 2.029)
 %_gidocdir	%{_defaultdocdir}/gi-doc
 
-# Location of KDE documentation
+# Location of KDE documentation (since 1.129)
 %_kdedocdir	%{_defaultdocdir}/kde/HTML
 
 # unsermake script
@@ -530,6 +530,7 @@ CPPFLAGS="${CPPFLAGS:-%{rpmcppflags}}" \\\
 	-DBUILD_SHARED_LIBS:BOOL=ON \\\
 %{nil}
 
+# scons (since 1.385)
 %scons { \
 %{__scons} \
 	LDFLAGS="${LDFLAGS:-%rpmldflags}" \
@@ -543,7 +544,7 @@ CPPFLAGS="${CPPFLAGS:-%{rpmcppflags}}" \\\
 	prefix=%{_prefix} \
 }
 
-# waf. see waf.spec
+# waf. see waf.spec (since 1.336)
 %waf { \
 CC="%{__cc}" \
 CXX="%{__cxx}" \
@@ -554,7 +555,7 @@ LINKFLAGS="%{rpmldflags}" \
 %{__waf} \
 }
 
-# meson
+# meson (since 1.727)
 %meson { \
 %{?__cc:CC="${CC:-%{__cc}}"} \
 %{?__cxx:CXX="${CXX:-%{__cxx}}"} \
@@ -588,7 +589,7 @@ LC_ALL=C.UTF-8 %{__meson} \
 %meson_install %___meson_deprecate meson_install ninja_install
 %meson_test %___meson_deprecate meson_test ninja_test
 
-# ninja
+# ninja (since 1.736)
 %ninja_build LC_ALL=C.UTF-8 %{__ninja} %{__ninja_common_opts}
 %ninja_install LC_ALL=C.UTF-8 DESTDIR=%{buildroot} %{__ninja} install %{__ninja_common_opts}
 %ninja_test LC_ALL=C.UTF-8 %{__ninja} test %{__ninja_common_opts}
@@ -662,11 +663,11 @@ LC_ALL=C.UTF-8 %{__meson} \
 %__without_if() %{expand:%%{?with_%{1}:--without-%{?2}%{!?2:%{1}}}}
 %__with_without_not() %{expand:%%{!?with_%{1}:--with-%{?2}%{!?2:%{1}}%{?3:=%{3}}}%%{?with_%{1}:--without-%{?2}%{!?2:%{1}}}}
 
-# expands to true or false based on bcond; for use with meson or cmake
+# expands to true or false based on bcond; for use with meson or cmake (since 1.729)
 %__true_false() %{expand:%%{?with_%{1}:true}%%{!?with_%{1}:false}}
 %__true_false_not() %{expand:%%{?with_%{1}:false}%%{!?with_%{1}:true}}
 
-# expands to enabled or disabled based on bcond; for use with meson or cmake
+# expands to enabled or disabled based on bcond; for use with meson or cmake (since 2.000)
 %__enabled_disabled() %{expand:%%{?with_%{1}:enabled}%%{!?with_%{1}:disabled}}
 %__enabled_disabled_not() %{expand:%%{?with_%{1}:disabled}%%{!?with_%{1}:enabled}}
 
@@ -1062,7 +1063,7 @@ __spec_install_post_check_shebangs() { \
 %_soname_prov() %(echo "%{1}()%{_soname_tag}" | sed -e 's/^\\([^(]*([^)]\\+)\\)()%{_soname_tag}$/\\1%{_soname_tag}/;s/()$//')
 
 #-----------------------------------------------------------------
-# Update GConf2 schemas
+# Update GConf2 schemas (since 1.198)
 #
 # Requires: GConf2
 #
@@ -1081,7 +1082,7 @@ fi; \
 %{nil}
 
 #-----------------------------------------------------------------
-# Update desktop MIME database
+# Update desktop MIME database (since 1.198)
 # requires: desktop-file-utils
 %update_desktop_database() {{ \
 	umask 022; \
@@ -1099,7 +1100,7 @@ fi; \
 %{nil}
 
 #-----------------------------------------------------------------
-# Update shared MIME info database
+# Update shared MIME info database (since 1.311)
 # requires: shared-mime-info
 # Note:	https://bugs.freedesktop.org/show_bug.cgi?id=70366#c19
 #	https://bugzilla.redhat.com/show_bug.cgi?id=1052173
@@ -1130,7 +1131,7 @@ fi; \
 %{nil}
 
 #-----------------------------------------------------------------
-# Update scrollkeeper database
+# Update scrollkeeper database (since 1.198)
 # requires: scrollkeeper
 #
 %scrollkeeper_update_post() \
@@ -1144,7 +1145,7 @@ fi; \
 %{nil}
 
 #-----------------------------------------------------------------
-# Compile GSettings schemas
+# Compile GSettings schemas (since 1.592)
 # requires: glib2 >= 1:2.26.0
 #
 %glib_compile_schemas() {{ \
@@ -1270,7 +1271,7 @@ fi; \
 # BuildRequires:	rpmbuild(macros) >= 1.719
 %zsh_compdir		/usr/share/zsh/site-functions
 
-# depmod macro
+# depmod macro (since 1.184)
 %depmod() { \
 umask 022; \
 if [ -e /boot/System.map-%1 ]; then \
@@ -1284,7 +1285,7 @@ else \
 fi; \
 }
 
-# user/group checking macros
+# user/group checking macros (since 1.202)
 #
 # Usage:
 #	%userremove myuser
@@ -1314,7 +1315,7 @@ fi; \
 %addusertogroup(q)	quiet=%{-q:1} /usr/lib/rpm/user_group.sh user addtogroup %*; \
 %{nil}
 
-# banner support (useful in {pre,post}{,un} and triggers)
+# banner support (useful in {pre,post}{,un} and triggers) (since 1.194)
 #
 # Usage:
 #	%banner name [-a] [-e] [-n] [-tn] [-o] <<EOF
@@ -1328,7 +1329,7 @@ fi; \
 # -e	- send to stderr instead of stdout
 # -n	- don't show banner (overrides -t)
 # -t	- show only, if RPM_SCRIPTVERBOSITY >= n; default n=5
-# -o	- show only once, i.e when package is installed for the first time
+# -o	- show only once, i.e when package is installed for the first time (since 1.595)
 #
 # Tests:
 # (rpm -E '%banner -e banner <<EOF'; echo -e 'hi\nEOF') > m; sh -x m
@@ -1348,7 +1349,7 @@ fi \
 eval $CMD %{?2:%2}%{?3: %3})%{-o:)} \
 %{nil}
 
-# useradd/groupadd macros
+# useradd/groupadd macros (since 1.202)
 # Author: Elan Ruusamäe <glen@pld-linux.org>
 #
 # Usage:
