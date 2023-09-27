@@ -58,6 +58,9 @@
 # Location of Gtk and associated libraries documentation
 %_gtkdocdir	%{_defaultdocdir}/gtk-doc/html
 
+# Common subdirectory for gi-docgen generated libraries documentation (since 2.029)
+%_gidocdir	%{_defaultdocdir}/gi-doc
+
 # Location of KDE documentation
 %_kdedocdir	%{_defaultdocdir}/kde/HTML
 
