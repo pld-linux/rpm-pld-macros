@@ -176,7 +176,7 @@ powerpc\\\
 	ARCH=%{_target_base_arch} CROSS_COMPILE=%{_target_cpu}-pld-linux- \\\
 	%endif															\\\
 %else																\\\
-	ARCH=%_kernel_arch												\\\
+	ARCH=%_kernel_arch												\\\\\\\
 	CC="%{__cc}"													\\\
 %endif																\
 %define	MakeOpts HOSTCC="%{__cc}" SYSSRC=%{_kernelsrcdir} SYSOUT=$PWD/o \\\\\\\
