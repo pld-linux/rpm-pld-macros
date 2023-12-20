@@ -91,6 +91,18 @@ done)
 %_host_base_arch	%{expand:%%global _host_base_arch %(echo %{_host_cpu} | sed 's/i.86/i386/;s/athlon/i386/;s/pentium./i386/;s/amd64/x86_64/;s/ia32e/x86_64/;s/x32/x86_64/;s/sparcv./sparc/;s/arm.*/arm/')}%_host_base_arch
 %_target_base_arch	%{expand:%%global _target_base_arch %(echo %{_target_cpu} | sed 's/i.86/i386/;s/athlon/i386/;s/pentium./i386/;s/amd64/x86_64/;s/ia32e/x86_64/;s/x32/x86_64/;s/sparcv./sparc/;s/arm.*/arm/')}%_target_base_arch
 
+%_kernel_arch	\\\
+%ifarch aarch64\
+arm64\
+%endif\
+%ifarch ppc ppc64\
+powerpc\\\
+%endif\
+%ifnarch aarch64 ppc ppc64\
+%{_target_base_arch}\\\
+%endif\
+%{nil}
+
 # Compression used for %__spec_install_post_compress_modules
 # Supported values:
 # - "gzip -9nf" (module-init-tools and kmod)
@@ -164,15 +176,7 @@ done)
 	ARCH=%{_target_base_arch} CROSS_COMPILE=%{_target_cpu}-pld-linux- \\\
 	%endif															\\\
 %else																\\\
-	%ifarch aarch64													\\\
-	ARCH=arm64														\\\
-	%endif															\\\
-	%ifarch ppc ppc64												\\\
-	ARCH=powerpc													\\\
-	%endif															\\\
-	%ifnarch aarch64 ppc ppc64										\\\
-	ARCH=%{_target_base_arch}										\\\
-	%endif															\\\
+	ARCH=%_kernel_arch												\\\
 	CC="%{__cc}"													\\\
 %endif																\
 %define	MakeOpts HOSTCC="%{__cc}" SYSSRC=%{_kernelsrcdir} SYSOUT=$PWD/o \\\\\\\
