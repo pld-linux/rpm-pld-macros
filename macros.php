@@ -158,7 +158,7 @@ fi \
 cat %{-z:$_N/}.install.log | %__pear_install_log \
 %undos -f php,html,js,xml \
 %{!?_noautocompressdoc:%global _noautocompressdoc %{nil}}%{expand:%%global _noautocompressdoc %{_noautocompressdoc} optional-packages.txt} \
-%{!?_noautoprov:%global _noautoprov %{nil}}%{expand:%%global _noautoprov %{_noautoprov} 'pear(tests/.*)'} \
+%{!?_noautoprov:%global _noautoprov %{nil}}%{expand:%%global _noautoprov %{_noautoprov} 'pear\\\(tests/.*\\\\)'} \
 %{nil}
 
 # Copies extracted PEAR package structure and PEAR registry to buildroot.
