@@ -1,4 +1,4 @@
-%define		rpm_macros_rev	2.032
+%define		rpm_macros_rev	2.033
 %define		find_lang_rev	1.42
 # split into individual X_prov_ver if there is a reason to desync
 %define		prov_ver	4.15
@@ -153,8 +153,12 @@ RPM.
 Summary:	Additional utilities for checking PHP PEAR provides/requires in RPM packages
 Summary(pl.UTF-8):	Dodatkowe narzędzia do sprawdzania zależności skryptów php w RPM
 Group:		Applications/File
+# The scripts are in perl
+Requires:	perl-base
 Requires:	%{name}-build = %{version}-%{release}
 Requires:	sed >= 4.0
+# Alternate req script in PHP
+Suggests:	/usr/bin/php
 Suggests:	php-pear-PHP_CompatInfo
 Provides:	rpm-php-pearprov = %{prov_ver}
 Obsoletes:	rpm-php-pearprov
