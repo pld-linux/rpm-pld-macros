@@ -6,7 +6,7 @@ Summary:	PLD Linux RPM macros
 Summary(pl.UTF-8):	Makra RPM dla Linuksa PLD
 Name:		rpm-pld-macros
 Version:	%{rpm_macros_rev}
-Release:	1
+Release:	2
 License:	GPL v2+
 Group:		Development/Building
 Source0:	macros.pld
@@ -71,6 +71,9 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 # redefine to bootstrap
 %define		_usrlibrpm %{_prefix}/lib/rpm
+
+# don't generate pear reqs for optional deps
+%define		_noautoreq_pear		.*
 
 %description
 This package contains rpm macros for PLD Linux.
