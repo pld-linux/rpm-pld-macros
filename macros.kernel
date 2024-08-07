@@ -93,7 +93,7 @@ done)
 
 %_kernel_arch	\\\
 %ifarch aarch64\
-arm64\
+arm64\\\
 %endif\
 %ifarch ppc ppc64\
 powerpc\\\
