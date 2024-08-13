@@ -30,12 +30,14 @@ done)
 %build_kernel_packages	%(echo %{_build_kernels} | tr , '\\n' | while read n ; do \
 echo %%undefine alt_kernel \
 [ -z "$n" -o "$n" = "head" ] || echo %%define alt_kernel $n \
+echo "echo \"Building modules for kernel %%{_kernel_ver}\"" \
 echo %%build_kernel_pkg \
 done)
 
 %install_kernel_packages	%(echo %{_build_kernels} | tr , '\\n' | while read n ; do \
 echo %%undefine alt_kernel \
 [ -z "$n" -o "$n" = "head" ] || echo %%define alt_kernel $n \
+echo "echo \"Installing modules for kernel %%{_kernel_ver}\"" \
 echo %%install_kernel_pkg \
 done)
 
