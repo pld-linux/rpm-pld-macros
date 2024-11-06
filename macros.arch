@@ -17,8 +17,8 @@
 %arm64_with_neon	aarch64
 %arm_with_neon		%{arm32_with_neon} %{arm64_with_neon}
 
-%arch32			%{ix86} %{arm32} ppc sparc sparcv9
-%arch64			%{x8664} %{arm64} ppc64 sparc64
+%arch32			%{ix86} %{arm32} mips ppc s390 sparc sparcv9
+%arch64			%{x8664} %{arm64} alpha mips64 ppc64 s390x sparc64
 
 # architectures with support for 8-byte (64 bits) atomics
 %arch_with_atomics64	i586 i686 athlon pentium2 pentium3 pentium4 %{x8664} x32 %{armv7} %{armv8} aarch64 mips64 ppc64 sparcv9 sparc64
