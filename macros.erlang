@@ -1,0 +1,12 @@
+# BuildRequires:	rpmbuild(macros) >= 2.035
+
+%__erl		/usr/bin/erl
+%__mix		/usr/bin/mix
+%__rebar	/usr/bin/rebar
+
+# BuildRequires:	erlang >= 2:17
+
+%erlang_otp	%{expand:%%global erlang_otp %(rpm -q --qf '%{V}' erlang | cut -d. -f1)}%erlang_otp
+
+%erlang_requires %{expand:%%global erlang_requires Requires:	erlang(OTP) = %erlang_otp\\\
+Requires:	erlang >= %(rpm -q --qf='%|E?{%{E}:}|%{V}' erlang|cut -d. -f1,2)}%erlang_requires

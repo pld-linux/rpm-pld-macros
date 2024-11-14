@@ -1,4 +1,4 @@
-%define		rpm_macros_rev	2.034
+%define		rpm_macros_rev	2.035
 %define		find_lang_rev	1.42
 # split into individual X_prov_ver if there is a reason to desync
 %define		prov_ver	4.15
@@ -6,7 +6,7 @@ Summary:	PLD Linux RPM macros
 Summary(pl.UTF-8):	Makra RPM dla Linuksa PLD
 Name:		rpm-pld-macros
 Version:	%{rpm_macros_rev}
-Release:	5
+Release:	1
 License:	GPL v2+
 Group:		Development/Building
 Source0:	macros.pld
@@ -53,7 +53,7 @@ Source55:	macros.rust
 Source56:	macros.arch
 Source57:	macros.go
 Source58:	macros.qt
-
+Source59:	macros.erlang
 Source60:	macros.gstreamer
 Source61:	attr.gstreamer
 
@@ -246,7 +246,7 @@ cp -p %{SOURCE55} $RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/macros.rust
 cp -p %{SOURCE56} $RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/macros.arch
 cp -p %{SOURCE57} $RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/macros.go
 cp -p %{SOURCE58} $RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/macros.qt
-
+cp -p %{SOURCE59} $RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/macros.erlang
 cp -p %{SOURCE60} $RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/macros.gstreamer
 cp -p %{SOURCE61} $RPM_BUILD_ROOT%{_usrlibrpm}/fileattrs/gstreamer.attr
 cp -p %{SOURCE63} $RPM_BUILD_ROOT%{_usrlibrpm}/fileattrs/mono.attr
@@ -272,6 +272,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_usrlibrpm}/macros.d/macros.browser-plugins
 %{_usrlibrpm}/macros.d/macros.cacti
 %{_usrlibrpm}/macros.d/macros.emacs
+%{_usrlibrpm}/macros.d/macros.erlang
 %{_usrlibrpm}/macros.d/macros.ghc
 %{_usrlibrpm}/macros.d/macros.go
 %{_usrlibrpm}/macros.d/macros.gstreamer
