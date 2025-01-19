@@ -260,10 +260,10 @@ pakietu oraz przy odpluskwianiu samego pakietu.\
 %__ninja	/usr/bin/ninja
 %__ninja_common_opts	-v %{?_smp_mflags}
 
-%__gettextize { \
-	gettextize --copy --force --no-changelog; \
-	if [ ! -f po/Makevars ]; then \
-		cp -f po/Makevars{.template,}; \
+%__gettextize(d:) { \
+	gettextize --copy --force --no-changelog %{?-d:--po-dir='%{-d*}'}; \
+	if [ ! -f %{!?-d:po}%{?-d:'%{-d*}'}/Makevars ]; then \
+		cp -f %{!?-d:po}%{?-d:'%{-d*}'}/Makevars{.template,}; \
 	fi; \
 }
 
