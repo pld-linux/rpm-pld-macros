@@ -1,4 +1,4 @@
-%define		rpm_macros_rev	2.037
+%define		rpm_macros_rev	2.038
 %define		find_lang_rev	1.42
 # split into individual X_prov_ver if there is a reason to desync
 %define		prov_ver	4.15
@@ -56,9 +56,9 @@ Source58:	macros.qt
 Source59:	macros.erlang
 Source60:	macros.gstreamer
 Source61:	attr.gstreamer
-
 Source62:	kmod-deps.sh
 Source63:	attr.mono
+Source64:	macros.vpath
 BuildRequires:	rpm >= 4.4.9-56
 BuildRequires:	sed >= 4.0
 Obsoletes:	rpm-macros < 1.254
@@ -250,6 +250,7 @@ cp -p %{SOURCE59} $RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/macros.erlang
 cp -p %{SOURCE60} $RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/macros.gstreamer
 cp -p %{SOURCE61} $RPM_BUILD_ROOT%{_usrlibrpm}/fileattrs/gstreamer.attr
 cp -p %{SOURCE63} $RPM_BUILD_ROOT%{_usrlibrpm}/fileattrs/mono.attr
+cp -p %{SOURCE64} $RPM_BUILD_ROOT%{_usrlibrpm}/macros.d/macros.vpath
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -289,6 +290,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_usrlibrpm}/macros.d/macros.selinux
 %{_usrlibrpm}/macros.d/macros.tcl
 %{_usrlibrpm}/macros.d/macros.upstart
+%{_usrlibrpm}/macros.d/macros.vpath
 %{_usrlibrpm}/macros.d/macros.webapp
 %{_usrlibrpm}/macros.d/macros.xmms
 %{_usrlibrpm}/macros.d/macros.xorg
