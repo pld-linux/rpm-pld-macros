@@ -257,8 +257,6 @@ pakietu oraz przy odpluskwianiu samego pakietu.\
 %__cmake	/usr/bin/cmake
 %__meson	/usr/bin/meson
 %__meson_wrap_mode	nodownload
-%__ninja	/usr/bin/ninja
-%__ninja_common_opts	-v %{?_smp_mflags}
 
 %__gettextize(d:) { \
 	gettextize --copy --force --no-changelog %{?-d:--po-dir='%{-d*}'}; \
@@ -583,16 +581,6 @@ LC_ALL=C.UTF-8 %{__meson} \
 	--wrap-mode=%{__meson_wrap_mode} \
 	--default-library='both' \
 }
-
-%___meson_deprecate() {echo >&2 "DEPRECATED: %%%1 must be replaced with %%%2"; %{expand:%%%2} }
-%meson_build %___meson_deprecate meson_build ninja_build
-%meson_install %___meson_deprecate meson_install ninja_install
-%meson_test %___meson_deprecate meson_test ninja_test
-
-# ninja (since 1.736)
-%ninja_build LC_ALL=C.UTF-8 %{__ninja} %{__ninja_common_opts}
-%ninja_install LC_ALL=C.UTF-8 DESTDIR=%{buildroot} %{__ninja} install %{__ninja_common_opts}
-%ninja_test LC_ALL=C.UTF-8 %{__ninja} test %{__ninja_common_opts}
 
 #----------------------------------------------------------------
 #%configure_cache 0
