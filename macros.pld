@@ -19,15 +19,11 @@
 # ---- configure macros.  note that most of these are inherited
 #      from the defaults.
 #
-%_sharedstatedir	/var/lib
-%_localstatedir		/var
 %_localedir			%{_datadir}/locale
 %_lispdir			%{_datadir}/emacs/site-lisp
 %_initddir			%{_sysconfdir}/rc.d/init.d
 
 %_metainfodir	%{_datadir}/metainfo
-
-%_defaultdocdir		%{_usr}/share/doc
 
 %_fmoddir		%{_libdir}/gfortran/modules
 
@@ -49,9 +45,6 @@
 # Location of pixmaps for applnk/desktop files
 %_pixmapsdir	/usr/share/pixmaps
 
-# Location of themable icons for applnk/desktop files
-%_iconsdir	/usr/share/icons
-
 # Location of fonts directories
 %_fontsdir	/usr/share/fonts
 
@@ -72,9 +65,6 @@
 
 # Example files, programs, scripts...
 %_examplesdir	/usr/src/examples
-
-# SysV-style initscripts dir
-%_initddir		/etc/rc.d/init.d
 
 # Executed at after copying %doc to DOCDIR, with $DOCDIR set
 # TODO: teach rpm.org that compressed %doc is the same thing as uncompressed
@@ -139,16 +129,6 @@ pakietu oraz przy odpluskwianiu samego pakietu.\
 %files debugsource -f debugsourcefiles.list\
 %{nil}
 
-%debug_package \
-%ifnarch noarch\
-%global __debug_package 1\
-%_debuginfo_template\
-%if 0%{?_debugsource_packages}\
-%_debugsource_template\
-%endif\
-%endif\
-%{nil}
-
 #---------------------------------------------------------------------
 # Overwrite RPM macros with PLD specific one here.
 
@@ -156,6 +136,8 @@ pakietu oraz przy odpluskwianiu samego pakietu.\
 %__lua			%{_bindir}/lua
 %__rc			%{_bindir}/rc
 %__xar			%{_bindir}/xar
+%__rm			/bin/rm --interactive=never
+
 
 %_source_payload	w9.gzdio
 %_binary_payload	w6.xzdio
@@ -166,8 +148,8 @@ pakietu oraz przy odpluskwianiu samego pakietu.\
 %_upgrade_tag		name
 
 # Disable automatic dependencies on symlinks for now (debuginfo packages pull too many deps)
-%_check_symlink_deps    0 
- 
+%_check_symlink_deps    0
+
 # Do not generate executable() dependencies for scriptlets,
 # as it may give false positives, for example:
 # [ ! -x /bin/prog ] || /bin/prog
@@ -178,15 +160,7 @@ pakietu oraz przy odpluskwianiu samego pakietu.\
 %_use_internal_dependency_generator	1
 
 %_duplicate_files_terminate_build	1
-%_files_listed_twice_terminate_build	1
 %_unpackaged_files_terminate_build	0
-%_unpackaged_subdirs_terminate_build	0
-
-#
-# Export package NEVRA (stamped with install tid) info for HRMIB on this path.
-#
-# XXX	Note: escaped %% for use in headerSprintf()
-%_hrmib_path	/var/cache/hrmib/%{___NVRA}
 
 #-----------------------------------------------------------------
 # CFLAGS and LDFLAGS used to build
@@ -232,8 +206,6 @@ pakietu oraz przy odpluskwianiu samego pakietu.\
 %cc_version	%{expand:%%global cc_version %(%{__cc} -dumpversion 2>/dev/null || echo 0.0)}%cc_version
 %cxx_version	%{expand:%%global cxx_version %(%{__cxx} -dumpversion 2>/dev/null || echo 0.0)}%cxx_version
 
-%__rm		/bin/rm --interactive=never
-
 # Build system path macros.
 %__autoconf		autoconf %{?debug:-Wall}
 %__automake		automake -a -c -f --foreign
@@ -247,6 +219,8 @@ pakietu oraz przy odpluskwianiu samego pakietu.\
 # if you want to disable parallel build do:
 # echo '%__jobs %{nil}' >> ~/.rpmmacros
 %__jobs		%{expand:%%global __jobs %(_NCPUS=$(/usr/bin/getconf _NPROCESSORS_ONLN); [ "$_NCPUS" -gt 3 ] && echo $(($_NCPUS / 2)))%%{nil}}%__jobs
+%_smp_build_ncpus %{__jobs}
+%_smp_build_nthreads %{__jobs}
 
 # expands to -jN if %__jobs has a value
 %_smp_mflags	%{expand:%%global _smp_mflags %(jobs=%{__jobs}; echo ${jobs:+-j$jobs}%%{nil})}%_smp_mflags
@@ -360,12 +334,15 @@ pakietu oraz przy odpluskwianiu samego pakietu.\
 	split("%{?filterout} %{?filterout_c} %{?filterout_ld}",F);
 	%{filter_out}
 }')
+%build_cflags %{rpmcflags}
+%build_fflags %{rpmcflags} %{?_fmoddir:-I%{_fmoddir}}
 
 %rpmcxxflags %(awk 'BEGIN {
 	split("%{?debug:%debugcflags}%{!?debug:%optflags}%{?debuginfocflags}",I);
 	split("%{?filterout} %{?filterout_cxx} %{?filterout_ld}",F);
 	%{filter_out}
 }')
+%build_cxxflags %{rpmcxxflags}
 
 %rpmcppflags %(awk 'BEGIN {
 	split("%{?debug:%debugcppflags}%{!?debug:%optcppflags}%{?debuginfocppflags}",I);
@@ -378,6 +355,7 @@ pakietu oraz przy odpluskwianiu samego pakietu.\
 	split("%{?filterout_ld}",F)
 	%{filter_out}
 }')
+%build_ldflags %{rpmldflags}
 
 # rpmldflags with stripped -Wl, -- in the form flags have to be passed to 'ld'
 # but, don't use it, better use gcc as linker
@@ -392,6 +370,21 @@ pakietu oraz przy odpluskwianiu samego pakietu.\
                 printf(s FS);
         };
 }')
+
+%set_build_flags \
+ if [ -n "$LINGUAS" ]; then unset LINGUAS; fi; \
+ LC_ALL=C.UTF-8 ; \
+ %{?__cc:CC="%{__cc}" ; export CC ; } \
+ %{?__cxx:CXX="%{__cxx}" ; export CXX ; } \
+ %{?__cpp:CPP="%{__cpp}" ; export CPP ; } \
+ CFLAGS="${CFLAGS:-%rpmcflags}" ; export CFLAGS ; \
+ CXXFLAGS="${CXXFLAGS:-%rpmcxxflags}" ; export CXXFLAGS ; \
+ FFLAGS="${FFLAGS:-%rpmcflags}" ; export FFLAGS ; \
+ FCFLAGS="${FCFLAGS:-%rpmcflags}" ; export FCFLAGS ; \
+ CPPFLAGS="${CPPFLAGS:-%rpmcppflags}" ; export CPPFLAGS ; \
+ LDFLAGS="${LDFLAGS:-%rpmldflags}" ; export LDFLAGS ; \
+ RUSTC="${RUSTC:-%{__rustc}}" \
+ RUSTFLAGS="${RUSTFLAGS:-%{rpmrustflags}" ; export RUSTFLAGS
 
 #-----------------------------------------------------------------
 #
@@ -444,15 +437,7 @@ pakietu oraz przy odpluskwianiu samego pakietu.\
 
 #-----------------------------------------------------------------
 %configure2_13 { \
- if [ -n "$LINGUAS" ]; then unset LINGUAS; fi; \
- LDFLAGS="${LDFLAGS:-%rpmldflags}" ; export LDFLAGS ; \
- CFLAGS="${CFLAGS:-%rpmcflags}" ; export CFLAGS ; \
- CXXFLAGS="${CXXFLAGS:-%rpmcxxflags}" ; export CXXFLAGS ; \
- FFLAGS="${FFLAGS:-%rpmcflags}" ; export FFLAGS ; \
- FCFLAGS="${FCFLAGS:-%rpmcflags}" ; export FCFLAGS ; \
- CPPFLAGS="${CPPFLAGS:-%rpmcppflags}" ; export CPPFLAGS ; \
- %{?__cc:CC="%{__cc}" ; export CC ; } \
- %{?__cxx:CXX="%{__cxx}" ; export CXX ; } \
+ %{set_build_flags}; \
  %{?configuredir:%{configuredir}}%{!?configuredir:.}/configure \
 	--host=%{_target_platform} \
 	--prefix=%{_prefix} \
@@ -482,10 +467,8 @@ pakietu oraz przy odpluskwianiu samego pakietu.\
 # in different way (e.g. expect them to be always relative or always
 # absolute).
 %cmake \
-%{?__cc:CC="${CC:-%{__cc}}"} \\\
-%{?__cxx:CXX="${CXX:-%{__cxx}}"} \\\
-CPPFLAGS="${CPPFLAGS:-%{rpmcppflags}}" \\\
-%{__cmake} \\\
+  %{set_build_flags}; \
+  %{__cmake} \\\
 	-DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \\\
 	-DCMAKE_BUILD_TYPE=%{!?debug:PLD}%{?debug:Debug} \\\
 	-DCMAKE_SYSTEM_NAME=Linux \\\
@@ -544,57 +527,18 @@ CPPFLAGS="${CPPFLAGS:-%{rpmcppflags}}" \\\
 
 # waf. see waf.spec (since 1.336)
 %waf { \
-CC="%{__cc}" \
-CXX="%{__cxx}" \
-CPP="%{__cpp}" \
-CFLAGS="%{rpmcflags}" \
-CXXFLAGS="%{rpmcxxflags}" \
+%{set_build_flags}; \
 LINKFLAGS="%{rpmldflags}" \
 %{__waf} \
-}
-
-# meson (since 1.727)
-%meson { \
-%{?__cc:CC="${CC:-%{__cc}}"} \
-%{?__cxx:CXX="${CXX:-%{__cxx}}"} \
-CFLAGS="${CFLAGS:-%{rpmcflags}}" \
-CPPFLAGS="${CPPFLAGS:-%{rpmcppflags}}" \
-CXXFLAGS="${CXXFLAGS:-%{rpmcxxflags}}" \
-LDFLAGS="${LDFLAGS:-%{rpmldflags}}" \
-RUSTC="${RUSTC:-%{__rustc}}" \
-RUSTFLAGS="${RUSTFLAGS:-%{rpmrustflags} --target %rust_target}" \
-LC_ALL=C.UTF-8 %{__meson} \
-	--buildtype=plain \
-	--bindir=%{_bindir} \
-	--datadir=%{_datadir} \
-	--includedir=%{_includedir} \
-	--infodir=%{_infodir} \
-	--libdir=%{_libdir} \
-	--libexecdir=%{_libexecdir} \
-	--localedir=%{_localedir} \
-	--localstatedir=%{_localstatedir} \
-	--mandir=%{_mandir} \
-	--prefix=%{_prefix} \
-	--sbindir=%{_sbindir} \
-	--sharedstatedir=%{_sharedstatedir} \
-	--sysconfdir=%{_sysconfdir} \
-	--wrap-mode=%{__meson_wrap_mode} \
-	--default-library='both' \
 }
 
 #----------------------------------------------------------------
 #%configure_cache 0
 %configure_cache_file	%{buildroot}.configure.cache
 
-%configure {./configure \
-	LDFLAGS="${LDFLAGS:-%rpmldflags}" \
-	CFLAGS="${CFLAGS:-%rpmcflags}" \
-	CXXFLAGS="${CXXFLAGS:-%rpmcxxflags}" \
-	FFLAGS="${FFLAGS:-%rpmcflags}" \
-	FCFLAGS="${FCFLAGS:-%rpmcflags}" \
-	CPPFLAGS="${CPPFLAGS:-%rpmcppflags}" \
-	%{?__cc:CC="%{__cc}"} \
-	%{?__cxx:CXX="%{__cxx}"} \
+%configure { \
+  %{set_build_flags}; \
+  ./configure \
 	--host=%{_target_platform} \
 	--build=%{_target_platform} \
 	--prefix=%{_prefix} \
