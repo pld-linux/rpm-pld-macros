@@ -276,6 +276,8 @@ pakietu oraz przy odpluskwianiu samego pakietu.\
 %_tmppath		%(echo "${TMPDIR:-/var/tmp}")
 %tmpdir			%{_tmppath}
 
+# Left for compatibility with rpm < 4.20
+# These are not user overridable in rpm >= 4.20.
 %_buildrootdir	%{_tmppath}
 %buildroot		%{_buildrootdir}/%{name}-%{version}-%{_arch}-root-%(id -u -n)
 
