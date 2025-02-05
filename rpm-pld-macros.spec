@@ -1,4 +1,4 @@
-%define		rpm_macros_rev	2.041
+%define		rpm_macros_rev	2.042
 %define		find_lang_rev	1.42
 # split into individual X_prov_ver if there is a reason to desync
 %define		prov_ver	4.15
@@ -91,6 +91,10 @@ Provides:	rpmbuild(macros) = %{rpm_macros_rev}
 Requires:	rpm-macros-systemd
 Obsoletes:	rpm-build-macros < 1.745
 Conflicts:	gettext-devel < 0.11
+# ensure not using meson without meson-related macros in package
+Conflicts:	meson < 1.6.1-3
+# ensure not using ninja without ninja-related macros in package
+Conflicts:	ninja < 1.12.1-2
 # macros.d/*
 Conflicts:	rpm-build < 5.4.15-52
 # php-config --sysconfdir
