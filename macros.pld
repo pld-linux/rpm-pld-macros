@@ -383,8 +383,8 @@ pakietu oraz przy odpluskwianiu samego pakietu.\
  FCFLAGS="${FCFLAGS:-%rpmcflags}" ; export FCFLAGS ; \
  CPPFLAGS="${CPPFLAGS:-%rpmcppflags}" ; export CPPFLAGS ; \
  LDFLAGS="${LDFLAGS:-%rpmldflags}" ; export LDFLAGS ; \
- RUSTC="${RUSTC:-%{__rustc}}" \
- RUSTFLAGS="${RUSTFLAGS:-%{rpmrustflags}" ; export RUSTFLAGS
+ RUSTC="${RUSTC:-%__rustc}" ; export RUSTC ; \
+ RUSTFLAGS="${RUSTFLAGS:-%rpmrustflags}" ; export RUSTFLAGS
 
 #-----------------------------------------------------------------
 #
