@@ -438,9 +438,12 @@ pakietu oraz przy odpluskwianiu samego pakietu.\
 %{nil}
 
 #-----------------------------------------------------------------
+%configuredir .
+%configureshell %{nil}
+
 %configure2_13 { \
  %{set_build_flags}; \
- %{?configuredir:%{configuredir}}%{!?configuredir:.}/configure \
+ %{?configureshell:%{configureshell}} %{configuredir}/configure \
 	--host=%{_target_platform} \
 	--prefix=%{_prefix} \
 	--exec-prefix=%{_exec_prefix} \
@@ -457,6 +460,33 @@ pakietu oraz przy odpluskwianiu samego pakietu.\
 	--infodir=%{_infodir} \
 	--x-libraries=%{?_x_libraries}%{!?_x_libraries:%{_libdir}} \
 	%{dependencytracking} \
+}
+
+#----------------------------------------------------------------
+#%configure_cache 0
+%configure_cache_file	%{buildroot}.configure.cache
+
+%configure { \
+  %{set_build_flags}; \
+ %{?configureshell:%{configureshell}} %{configuredir}/configure \
+	--host=%{_target_platform} \
+	--build=%{_target_platform} \
+	--prefix=%{_prefix} \
+	--exec-prefix=%{_exec_prefix} \
+	--bindir=%{_bindir} \
+	--sbindir=%{_sbindir} \
+	--sysconfdir=%{_sysconfdir} \
+	--datadir=%{_datadir} \
+	--includedir=%{_includedir} \
+	--libdir=%{_libdir} \
+	--libexecdir=%{_libexecdir} \
+	--localstatedir=%{_localstatedir} \
+	--sharedstatedir=%{_sharedstatedir} \
+	--mandir=%{_mandir} \
+	--infodir=%{_infodir} \
+	--x-libraries=%{?_x_libraries}%{!?_x_libraries:%{_libdir}} \
+	%{dependencytracking} \
+	%{?configure_cache:--cache-file=%{configure_cache_file}} \
 }
 
 # Note: pass only standard cmake macros here.
@@ -532,33 +562,6 @@ pakietu oraz przy odpluskwianiu samego pakietu.\
 %{set_build_flags}; \
 LINKFLAGS="%{rpmldflags}" \
 %{__waf} \
-}
-
-#----------------------------------------------------------------
-#%configure_cache 0
-%configure_cache_file	%{buildroot}.configure.cache
-
-%configure { \
-  %{set_build_flags}; \
-  ./configure \
-	--host=%{_target_platform} \
-	--build=%{_target_platform} \
-	--prefix=%{_prefix} \
-	--exec-prefix=%{_exec_prefix} \
-	--bindir=%{_bindir} \
-	--sbindir=%{_sbindir} \
-	--sysconfdir=%{_sysconfdir} \
-	--datadir=%{_datadir} \
-	--includedir=%{_includedir} \
-	--libdir=%{_libdir} \
-	--libexecdir=%{_libexecdir} \
-	--localstatedir=%{_localstatedir} \
-	--sharedstatedir=%{_sharedstatedir} \
-	--mandir=%{_mandir} \
-	--infodir=%{_infodir} \
-	--x-libraries=%{?_x_libraries}%{!?_x_libraries:%{_libdir}} \
-	%{dependencytracking} \
-	%{?configure_cache:--cache-file=%{configure_cache_file}} \
 }
 
 # Simple macros to simplify adding bconded options to configure scripts.
