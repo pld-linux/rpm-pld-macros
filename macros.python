@@ -103,6 +103,40 @@
 	--root=$RPM_BUILD_ROOT \
 }
 
+# macros for pyproject.toml based builds
+%py3_build_pyproject { \
+	LDFLAGS="${LDFLAGS:-%rpmldflags}"; export LDFLAGS; \
+	CFLAGS="${CFLAGS:-%rpmcppflags %rpmcflags}"; export CFLAGS; \
+	CXXFLAGS="${CXXFLAGS:-%rpmcppflags %rpmcxxflags}"; export CXXFLAGS; \
+	%{?__cc:CC="%{__cc}"; export CC;} \
+	%{?__cxx:CXX="%{__cxx}"; export CXX;} \
+        %{__python3} \
+        -m build \
+        --wheel \
+        --no-isolation \
+        --outdir build-3 \
+}
+
+# "shrink" filter to keep this macro without newlines,
+# so it could be used as make arguments
+%py3_install_pyproject_opts() %{shrink: \
+	--prefix=%{_prefix} \
+	--compile-bytecode=2 \
+}
+
+%py3_install_pyproject { \
+	LDFLAGS="${LDFLAGS:-%rpmldflags}"; export LDFLAGS; \
+	CFLAGS="${CFLAGS:-%rpmcppflags %rpmcflags}"; export CFLAGS; \
+	CXXFLAGS="${CXXFLAGS:-%rpmcppflags %rpmcxxflags}"; export CXXFLAGS; \
+	%{?__cc:CC="%{__cc}"; export CC;} \
+	%{?__cxx:CXX="%{__cxx}"; export CXX;} \
+        %{__python3} \
+        -m installer \
+        --destdir=$RPM_BUILD_ROOT \
+        %{py3_install_pyproject_opts} \
+        build-3/*.whl \
+}
+
 # Hardlink binary identical .pyc and .pyo files
 %__spec_install_post_py_hardlink {\
 %{!?no_install_post_py_hardlink: __spec_install_post_py_hardlink() { \
