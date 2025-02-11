@@ -162,6 +162,9 @@ pakietu oraz przy odpluskwianiu samego pakietu.\
 %_duplicate_files_terminate_build	1
 %_unpackaged_files_terminate_build	0
 
+# Make files in .src.rpm owned by root, but preserve permissions
+%_srcdefattr	(-,root,root,-)
+
 #-----------------------------------------------------------------
 # CFLAGS and LDFLAGS used to build
 
