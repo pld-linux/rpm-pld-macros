@@ -6,7 +6,7 @@ Summary:	PLD Linux RPM macros
 Summary(pl.UTF-8):	Makra RPM dla Linuksa PLD
 Name:		rpm-pld-macros
 Version:	%{rpm_macros_rev}
-Release:	1
+Release:	2
 License:	GPL v2+
 Group:		Development/Building
 Source0:	macros.pld
@@ -90,6 +90,8 @@ Provides:	rpmbuild(find_lang) = %{find_lang_rev}
 Provides:	rpmbuild(macros) = %{rpm_macros_rev}
 Requires:	rpm-macros-systemd
 Obsoletes:	rpm-build-macros < 1.745
+# ensure cargo with install --no-track support
+Conflicts:	cargo < 1.41.0
 Conflicts:	gettext-devel < 0.11
 # ensure not using meson without meson-related macros in package
 Conflicts:	meson < 1.6.1-3

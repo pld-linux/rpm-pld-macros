@@ -52,6 +52,7 @@ thumbv7neon-unknown-linux-gnueabihf\\\
 	--target-dir %{cargo_targetdir} \\\
 %{nil}
 
+# BuildRequires: cargo >= 1.41.0
 %cargo_install \\\
 	CC="%{__cc}" \\\
 	CXX="%{__cxx}" \\\
@@ -66,4 +67,5 @@ thumbv7neon-unknown-linux-gnueabihf\\\
 	%{__cargo} %{__cargo_common_opts} install \\\
 	--target %rust_target \\\
 	--target-dir %{cargo_targetdir} \\\
+	--no-track \\\
 %{nil}
