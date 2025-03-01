@@ -52,7 +52,6 @@ thumbv7neon-unknown-linux-gnueabihf\\\
 	--target-dir %{cargo_targetdir} \\\
 %{nil}
 
-# BuildRequires: cargo >= 1.41.0
 %cargo_install \\\
 	CC="%{__cc}" \\\
 	CXX="%{__cxx}" \\\
