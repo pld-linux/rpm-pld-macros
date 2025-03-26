@@ -519,7 +519,7 @@ pakietu oraz przy odpluskwianiu samego pakietu.\
 	-DCMAKE_BUILD_TYPE=%{!?debug:PLD}%{?debug:Debug} \\\
 	-DCMAKE_SYSTEM_NAME=Linux \\\
 	-DCMAKE_SYSTEM_VERSION="%(uname -r)" \\\
-	-DCMAKE_CROSSCOMPILING:BOOL=FALSE \\\
+	-DCMAKE_CROSSCOMPILING:BOOL=OFF \\\
 %ifarch x32\
 	-DCMAKE_SYSTEM_PROCESSOR=x86_64 \\\
 %else\
