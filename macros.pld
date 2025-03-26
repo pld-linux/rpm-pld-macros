@@ -175,8 +175,8 @@ pakietu oraz przy odpluskwianiu samego pakietu.\
 %debugcppflags	%{nil}
 %debugldflags	%{nil}
 
-%optldflags	-Wl,--as-needed -Wl,--no-copy-dt-needed-entries -Wl,-z,relro -Wl,-z,combreloc %{?use_ld:-Wl,-fuse-ld=%{use_ld}}
-%optcppflags	%{nil}
+%optldflags		-Wl,--as-needed -Wl,--no-copy-dt-needed-entries -Wl,-z,relro -Wl,-z,combreloc %{?use_ld:-Wl,-fuse-ld=%{use_ld}}
+%optcppflags	-DNDEBUG -DQT_NO_DEBUG
 
 # common compilation flags
 %_fortify_cflags	-Wp,-D_FORTIFY_SOURCE=2
@@ -542,12 +542,12 @@ pakietu oraz przy odpluskwianiu samego pakietu.\
 	-DCMAKE_INSTALL_DOCDIR:PATH=%{_docdir} \\\
 	-DCMAKE_INSTALL_PREFIX:PATH=%{_prefix} \\\
 	-DSYSCONF_INSTALL_DIR:PATH=%{_sysconfdir} \\\
-	-DCMAKE_CXX_FLAGS_PLD="${CXXFLAGS:-%{rpmcxxflags} -DNDEBUG -DQT_NO_DEBUG}" \\\
-	-DCMAKE_C_FLAGS_PLD="${CFLAGS:-%{rpmcflags} -DNDEBUG -DQT_NO_DEBUG}" \\\
-	-DCMAKE_Fortran_FLAGS_PLD="${FFLAGS:-%{rpmfflags} -DNDEBUG -DQT_NO_DEBUG}" \\\
-	-DCMAKE_EXE_LINKER_FLAGS_PLD="${LDFLAGS:-%{rpmldflags}}" \\\
-	-DCMAKE_SHARED_LINKER_FLAGS_PLD="${LDFLAGS:-%{rpmldflags}}" \\\
-	-DCMAKE_MODULE_LINKER_FLAGS_PLD="${LDFLAGS:-%{rpmldflags}}" \\\
+	-DCMAKE_CXX_FLAGS_PLD="${CXXFLAGS} ${CPPFLAGS}" \\\
+	-DCMAKE_C_FLAGS_PLD="${CFLAGS} ${CPPFLAGS}" \\\
+	-DCMAKE_Fortran_FLAGS_PLD="${FFLAGS} ${CPPFLAGS}" \\\
+	-DCMAKE_EXE_LINKER_FLAGS_PLD="${LDFLAGS}" \\\
+	-DCMAKE_SHARED_LINKER_FLAGS_PLD="${LDFLAGS}" \\\
+	-DCMAKE_MODULE_LINKER_FLAGS_PLD="${LDFLAGS}" \\\
 %if "%{_lib}" == "lib64" \
 	-DLIB_SUFFIX=64 \\\
 %endif \
