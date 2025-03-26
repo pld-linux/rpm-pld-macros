@@ -184,9 +184,12 @@ pakietu oraz przy odpluskwianiu samego pakietu.\
 # cf http://wiki.mandriva.com/en/Development/Packaging/Problems#format_not_a_string_literal_and_no_format_arguments
 %Werror_cflags		-Wformat -Werror=format-security
 
+# silent line truncation causes errors hard to track
+%Werror_fflags		-Werror=line-truncation
+
 # Use -Werror=trampolines to prevent GCC from generating code that require executable stack
 %_ssp_cflags		-fstack-protector-strong --param=ssp-buffer-size=4 -Werror=trampolines
-%__common_cflags	-O2 -fwrapv -pipe %{Werror_cflags} %{debuginfocflags} %{?_fortify_cflags} %{!?nospecflags:%{?specflags}}
+%__common_cflags	-O2 -fwrapv -pipe %{debuginfocflags} %{?_fortify_cflags} %{!?nospecflags:%{?specflags}}
 %__common_cflags_with_ssp	%{__common_cflags} %{?_ssp_cflags}
 
 # arch macros
@@ -318,10 +321,11 @@ pakietu oraz przy odpluskwianiu samego pakietu.\
 # BuildRequires:	rpmbuild(macros) >= 1.315
 #
 # Flags specified in %filterout_* are removed from %rpm*flags, exactly:
-# %rpmcflags    = %optflags - %filterout - %filterout_c   - %filterout_ld
-# %rpmcxxflags  = %optflags - %filterout - %filterout_cxx - %filterout_ld
-# %rpmcppflags  = %optcppflags - %filterout - %filterout_cpp - %filterout_ld
-# %rpmldflags   = %optldflags - %filterout_ld
+# %rpmcflags    = %optflags|%debufcflags %Werror_cflags - %filterout - %filterout_c   - %filterout_ld
+# %rpmcxxflags  = %optflags|%debufcflags %Werror_cflags - %filterout - %filterout_cxx - %filterout_ld
+# %rpmfflags    = %optflags|%debugcflags %Werror_fflags - %filterout - %filterout_f   - %filterout_ld
+# %rpmcppflags  = %optcppflags|%debugcppflags - %filterout - %filterout_cpp - %filterout_ld
+# %rpmldflags   = %optldflags|%debugldflags - %filterout_ld
 #
 # Regular expressions are supported, but to avoid some character be treated
 # as regular expression it must be escaped twice.
@@ -335,7 +339,7 @@ pakietu oraz przy odpluskwianiu samego pakietu.\
 	}
 
 %rpmcflags %(awk 'BEGIN {
-	split("%{?debug:%debugcflags}%{!?debug:%optflags}%{?debuginfocflags}",I);
+	split("%{?debug:%debugcflags}%{!?debug:%optflags}%{?debuginfocflags} %{Werror_cflags}",I);
 	split("%{?filterout} %{?filterout_c} %{?filterout_ld}",F);
 	%{filter_out}
 }')
@@ -343,11 +347,18 @@ pakietu oraz przy odpluskwianiu samego pakietu.\
 %build_fflags %{rpmcflags} %{?_fmoddir:-I%{_fmoddir}}
 
 %rpmcxxflags %(awk 'BEGIN {
-	split("%{?debug:%debugcflags}%{!?debug:%optflags}%{?debuginfocflags}",I);
+	split("%{?debug:%debugcflags}%{!?debug:%optflags}%{?debuginfocflags} %{Werror_cflags}",I);
 	split("%{?filterout} %{?filterout_cxx} %{?filterout_ld}",F);
 	%{filter_out}
 }')
 %build_cxxflags %{rpmcxxflags}
+
+%rpmfflags %(awk 'BEGIN {
+	split("%{?debug:%debugcflags}%{!?debug:%optflags}%{?debuginfocflags} %{Werror_fflags}",I);
+	split("%{?filterout} %{?filterout_f} %{?filterout_ld}",F);
+	%{filter_out}
+}')
+%build_fflags %{rpmfflags}
 
 %rpmcppflags %(awk 'BEGIN {
 	split("%{?debug:%debugcppflags}%{!?debug:%optcppflags}%{?debuginfocppflags}",I);
@@ -384,8 +395,8 @@ pakietu oraz przy odpluskwianiu samego pakietu.\
  %{?__cpp:CPP="%{__cpp}" ; export CPP ; } \
  CFLAGS="${CFLAGS:-%rpmcflags}" ; export CFLAGS ; \
  CXXFLAGS="${CXXFLAGS:-%rpmcxxflags}" ; export CXXFLAGS ; \
- FFLAGS="${FFLAGS:-%rpmcflags}" ; export FFLAGS ; \
- FCFLAGS="${FCFLAGS:-%rpmcflags}" ; export FCFLAGS ; \
+ FFLAGS="${FFLAGS:-%rpmfflags}" ; export FFLAGS ; \
+ FCFLAGS="${FCFLAGS:-%rpmfflags}" ; export FCFLAGS ; \
  CPPFLAGS="${CPPFLAGS:-%rpmcppflags}" ; export CPPFLAGS ; \
  LDFLAGS="${LDFLAGS:-%rpmldflags}" ; export LDFLAGS ; \
  RUSTC="${RUSTC:-%__rustc}" ; export RUSTC ; \
@@ -533,7 +544,7 @@ pakietu oraz przy odpluskwianiu samego pakietu.\
 	-DSYSCONF_INSTALL_DIR:PATH=%{_sysconfdir} \\\
 	-DCMAKE_CXX_FLAGS_PLD="${CXXFLAGS:-%{rpmcxxflags} -DNDEBUG -DQT_NO_DEBUG}" \\\
 	-DCMAKE_C_FLAGS_PLD="${CFLAGS:-%{rpmcflags} -DNDEBUG -DQT_NO_DEBUG}" \\\
-	-DCMAKE_Fortran_FLAGS_PLD="${CFLAGS:-%{rpmcflags} -DNDEBUG -DQT_NO_DEBUG}" \\\
+	-DCMAKE_Fortran_FLAGS_PLD="${FFLAGS:-%{rpmfflags} -DNDEBUG -DQT_NO_DEBUG}" \\\
 	-DCMAKE_EXE_LINKER_FLAGS_PLD="${LDFLAGS:-%{rpmldflags}}" \\\
 	-DCMAKE_SHARED_LINKER_FLAGS_PLD="${LDFLAGS:-%{rpmldflags}}" \\\
 	-DCMAKE_MODULE_LINKER_FLAGS_PLD="${LDFLAGS:-%{rpmldflags}}" \\\
@@ -552,7 +563,7 @@ pakietu oraz przy odpluskwianiu samego pakietu.\
 	LDFLAGS="${LDFLAGS:-%rpmldflags}" \
 	CFLAGS="${CFLAGS:-%rpmcflags}" \
 	CXXFLAGS="${CXXFLAGS:-%rpmcxxflags}" \
-	FFLAGS="${FFLAGS:-%rpmcflags}" \
+	FFLAGS="${FFLAGS:-%rpmfflags}" \
 	CPPFLAGS="${CPPFLAGS:-%rpmcppflags}" \
 	%{?__cc:CC="%{__cc}"} \
 	%{?__cxx:CXX="%{__cxx}"} \
