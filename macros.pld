@@ -1447,7 +1447,7 @@ fi;
 	filelist='%{-s*}'
 	i=$base
 	while read checksum file; do
-		printf "patch%d %s\\n" $i "$patchlevel" | sed -e s,^,%%,
+		printf "patch -P%d %s\\n" $i "$patchlevel" | sed -e s,^,%%,
 		i=$((i+1))
 	done < $filelist
 }
@@ -1455,7 +1455,7 @@ fi;
 	start=$(expr $base + %1);
 	end=$(expr $base + %{?2}%{!?2:%{1}});
 	echo ": patchset_patch %1%{?2: to %2}";
-	seq -f "patch%g $patchlevel" $start $end | sed -e s,^,%%,;
+	seq -f "patch -P%g $patchlevel" $start $end | sed -e s,^,%%,;
 }
 ) \
 %{nil}
