@@ -279,7 +279,14 @@ pakietu oraz przy odpluskwianiu samego pakietu.\
 	fi; \
 )}%_topdir
 
-%_tmppath		%(echo "${TMPDIR:-/var/tmp}")
+%_tmppath %{lua:
+local tmpdir = os.getenv("TMPDIR")
+if not tmpdir or tmpdir == "" then
+  tmpdir = "/var/tmp"
+end
+print(tmpdir)
+}
+
 %tmpdir			%{_tmppath}
 
 # Left for compatibility with rpm < 4.20
