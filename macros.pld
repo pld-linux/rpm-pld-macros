@@ -1197,6 +1197,7 @@ fi; \
 # detect quote character runtime
 %__qchar_4 \\\\%{nil}
 %__qchar_5 \\\\\\%{nil}
+%__qchar_6 \\\\%{nil}
 %__qchar %{expand:%%global __qchar %%__qchar_%(echo %{_rpmversion} | cut -c1)}%__qchar
 
 #%_noautocompressdoc	%{nil}
