@@ -109,3 +109,34 @@ Requires:	glibc >= 1:2.23\
 Requires:	uname(release) >= 4.4\
 %endif\
 %{nil}
+
+%update_cargo_checksum() %{!?1:%{error:%%%0 macro requires an argument}} { \
+__update_cargo_checksum() { \
+local file cksum_dir cksum_path cksum_filename cksum cksum_key;\
+cksum_filename=.cargo-checksum.json;\
+for file in "$@"; do \
+if [ ! -f "$file" ]; then \
+echo "ERROR: file '$file' does not exist" >&2;\
+exit 1;\
+fi;\
+unset cksum_path;\
+cksum_dir=$(dirname $(readlink -f "$file"));\
+while [ "$cksum_dir" != "%{_builddir}" ] && [ "$cksum_dir" != / ]; do \
+test -f "$cksum_dir/$cksum_filename" && cksum_path="$cksum_dir/$cksum_filename" && break;\
+cksum_dir=$(dirname "$cksum_dir");\
+done;\
+if [ -z "$cksum_path" ]; then \
+echo "ERROR: cannot find $cksum_filename file for '$file'" >&2;\
+exit 1;\
+fi;\
+cksum_key=$(realpath --relative-to="$cksum_dir" "$file");\
+if ! grep -q "\\"$cksum_key\\"[[:space:]]*:" "$cksum_path"; then \
+echo "ERROR: no entry found for '$cksum_key' in '$cksum_path'" >&2;\
+exit 1;\
+fi;\
+cksum=$(sha256sum "$file"|cut -f1 -d' ');\
+sed -i -re "s;(\\"$cksum_key\\"\\\\s*:\\\\s*)\\"[^\\"]*\\";\\\\1\\"$cksum\\";" "$cksum_path";\
+done;\
+}; __update_cargo_checksum %* \
+}\
+%{nil}
