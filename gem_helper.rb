@@ -10,7 +10,7 @@ require 'rubygems'
 
 # Write the .gemspec specification (in Ruby)
 def writespec(spec)
-	file_name = spec.full_name.untaint + '.gemspec'
+	file_name = spec.full_name + '.gemspec'
 	File.open(file_name, "w") do |file|
 		file.puts spec.to_ruby_for_cache
 	end
@@ -75,14 +75,11 @@ if ARGV[0] == "build" or ARGV[0] == "install" or ARGV[0] == "spec"
   end
 
   file_data = Zlib::GzipReader.open("metadata.gz") {|io| io.read}
-  header = YAML::load(file_data)
+  spec = Gem::Specification.from_yaml(file_data)
   body = {}
-  # I don't know any better.. :/
-  header.instance_variables.each do |iv|
-	  body[iv.to_s.sub(/^@/,'')] = header.instance_variable_get(iv)
+  spec.instance_variables.each do |iv|
+	  body[iv.to_s.sub(/^@/,'')] = spec.instance_variable_get(iv)
   end
-
-  spec = Gem::Specification.from_yaml(YAML.dump(header))
 
   if ARGV[0] == "spec"
     writespec(spec)
@@ -186,9 +183,9 @@ if ARGV[0] == "build" or ARGV[0] == "install" or ARGV[0] == "spec"
       end
     end
 
-    spec = Gem::Specification.from_yaml(YAML.dump(header))
+    require 'rubygems/package'
     unless dry_run
-      Gem::Builder.new(spec).build
+      Gem::Package.build(spec)
     else
       files.concat(spec.files)
       print "%s\n" % files.join("\n")
