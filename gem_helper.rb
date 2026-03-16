@@ -27,6 +27,7 @@ end
 if ARGV[0] == "build" or ARGV[0] == "install" or ARGV[0] == "spec"
   require 'yaml'
   require 'zlib'
+  require 'rubygems/package'
 
   filter = nil
   opts = nil
@@ -74,8 +75,16 @@ if ARGV[0] == "build" or ARGV[0] == "install" or ARGV[0] == "spec"
     argv.delete_at(0)
   end
 
-  file_data = Zlib::GzipReader.open("metadata.gz") {|io| io.read}
-  spec = Gem::Specification.from_yaml(file_data)
+  if File.exist?("metadata.gz")
+    file_data = Zlib::GzipReader.open("metadata.gz") {|io| io.read}
+    spec = Gem::Specification.from_yaml(file_data)
+  elsif File.exist?("metadata")
+    spec = Gem::Specification.from_yaml(File.read("metadata"))
+  elsif (gemspec = (Dir["*.gemspec"] + Dir[File.join(File.dirname(Dir.pwd), "*.gemspec")]).first)
+    spec = Gem::Specification.load(gemspec)
+  else
+    raise "No metadata.gz, metadata, or .gemspec found"
+  end
   body = {}
   spec.instance_variables.each do |iv|
 	  body[iv.to_s.sub(/^@/,'')] = spec.instance_variable_get(iv)
