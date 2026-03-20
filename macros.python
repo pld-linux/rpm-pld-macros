@@ -139,9 +139,15 @@
 
 # "shrink" filter to keep this macro without newlines,
 # so it could be used as make arguments
+# Note: unlike setup.py's --optimize=N which always generates level 0 bytecode
+# plus the requested level, python3 -m installer --compile-bytecode=N generates
+# ONLY the specified level(s). We need 0 (used by default python3 invocation),
+# 1 (used by python3 -O) and 2 (used by python3 -OO). Without level 0, Python
+# has to recompile from .py source on every import since it won't use .opt-N.pyc
+# files for non-optimized runs.
 %py3_install_pyproject_opts() %{shrink: \
 	--prefix=%{_prefix} \
-	--compile-bytecode=2 \
+	--compile-bytecode=0 --compile-bytecode=1 --compile-bytecode=2 \
 }
 
 %py3_install_pyproject { \
