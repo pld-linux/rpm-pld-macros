@@ -1149,24 +1149,24 @@ fi; \
 	%{?_noautoreq_py3egg: %{__noauto_regexp_helper -p python3egg %{_noautoreq_py3egg}}} \
 	%{nil}
 
-%__noautodep_helper() %(echo '%*' | awk 'BEGIN {
-	RS = "\n([ \t]+\n)+";
-	FS = " ";
+# Convert whitespace-separated list of dependency patterns into a single
+# alternation regex: "pat1 pat2 pat3" → "(pat1|pat2|pat3)"
+# Used by __requires_exclude / __provides_exclude to filter auto-dependencies.
+# Strips single quotes from patterns (some specs quote _noautoreq values)
+# and skips #-comment tokens.
+%__noautodep_helper() %{lua:
+local args = rpm.expand("%*")
+local result = {}
+for token in args:gmatch("%S+") do
+  token = token:gsub("'", "")
+  if token ~= "" and not token:match("^#") then
+    table.insert(result, token)
+  end
+end
+if #result > 0 then
+  print("(" .. table.concat(result, "|") .. ")")
+end
 }
-{
-	split($0, F);
-	if (length(F) > 0) {
-		printf("(");
-		for (i=1; i<=length(F); i++) {
-			s = F[i];
-			sub(/#.*/, "z&z", s);
-			if (s ~ /^$/) { continue; };
-			printf(s);
-			if (i != length(F)) { printf("|"); };
-		};
-		printf(")");
-	}
-}')
 %__requires_exclude_from	%{__noautodep_helper %{__noautoreqfiles}}%{nil}
 %__provides_exclude_from	%{__noautodep_helper %{__noautoprovfiles}}%{nil}
 %__requires_exclude			%{__noautodep_helper %{__noautoreq}}%{nil}
