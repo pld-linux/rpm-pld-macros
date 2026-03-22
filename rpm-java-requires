@@ -62,7 +62,7 @@ javajarversion() {
 	[ -f "$jar" -a ! -L "$jar" ] || return $ret
 
 	tmp=$(mktemp -d)
-	unzip -q -d $tmp $jar >&2
+	unzip -q -n -d $tmp $jar >&2
 	# workaround for .jar files with stupid permissions
 	chmod -R u+rwX $tmp
 
