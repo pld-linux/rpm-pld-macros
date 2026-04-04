@@ -66,9 +66,10 @@
 %use_default_jdk()		%{expand:%%global use_jdk %{default_jdk %{?*}}}
 
 # expands to the value with right jdk for BuildRequires header
-# 'jdk' if %%use_jdk is not defined,  jdk(%%use_jdk) otherwise
-# The requirement will not replace current 'default' JDK
-%required_jdk	jdk%{?use_jdk:(%{use_jdk})}
+# When %%use_jdk is set, require full JDK package (with /usr/bin/javac etc.)
+# to ensure correct JDK tools are in PATH when multiple JDK -base packages
+# are co-installed.
+%required_jdk	%{?use_jdk:%{use_jdk}-jdk}%{!?use_jdk:jdk}
 
 %buildrequires_jdk BuildRequires: %required_jdk
 
