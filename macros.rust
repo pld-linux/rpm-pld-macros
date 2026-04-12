@@ -31,7 +31,7 @@ thumbv7neon-unknown-linux-gnueabihf\\\
 
 %cargo_target	%rust_target
 %cargo_targetdir	target
-%cargo_objdir		%{?buildsubdir:%{_builddir}/%{buildsubdir}/}%{cargo_targetdir}/%{rust_target}/%{!?debug:release}%{?debug:debug}
+%cargo_objdir		%{cargo_targetdir}/%{rust_target}/%{!?debug:release}%{?debug:debug}
 
 %__rustc	/usr/bin/rustc
 %__cargo	/usr/bin/cargo
