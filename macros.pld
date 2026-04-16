@@ -224,7 +224,9 @@ pakietu oraz przy odpluskwianiu samego pakietu.\
 #
 # if you want to disable parallel build do:
 # echo '%__jobs %{nil}' >> ~/.rpmmacros
-%__jobs		%{expand:%%global __jobs %(_NCPUS=$(/usr/bin/getconf _NPROCESSORS_ONLN); [ "$_NCPUS" -gt 3 ] && echo $(($_NCPUS / 2)))%%{nil}}%__jobs
+#
+# to cap parallelism in a spec: %define _smp_ncpus_max 16
+%__jobs		%{expand:%%global __jobs %{__smp_use_ncpus}}%__jobs
 %_smp_build_ncpus %{__jobs}
 %_smp_build_nthreads %{__jobs}
 
