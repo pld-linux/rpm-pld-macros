@@ -82,6 +82,16 @@
 %javac		%{java_home}/bin/javac
 %javadoc	%{java_home}/bin/javadoc
 
+%java_env \
+ if [ -n "%{java_home}" ] && [ "%{java_home}" != "ERROR" ]; then \
+ JAVA_HOME="${JAVA_HOME:-%{java_home}}"; export JAVA_HOME; \
+ JAVA="${JAVA:-%{java}}"; export JAVA; \
+ JAVAC="${JAVAC:-%{javac}}"; export JAVAC; \
+ JAVADOC="${JAVADOC:-%{javadoc}}"; export JAVADOC; \
+ JAR="${JAR:-%{jar}}"; export JAR; \
+ PATH="$PATH:%{java_home}/bin"; export PATH; \
+ fi
+
 %add_jvm_extension	JAVA_LIBDIR=%{buildroot}/%{_javadir}	%{_bindir}/jvmjar -l
 
 %jpackage_script() \
