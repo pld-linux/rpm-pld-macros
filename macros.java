@@ -72,13 +72,13 @@
 
 %buildrequires_jdk BuildRequires: %required_jdk
 
-%java_home	%{expand:%%global java_home %([ -f %{_javadir}-utils/java-functions ] || { echo ERROR; exit 0; }; %{!?use_jdk:unset JAVA_HOME; . %{_javadir}-utils/java-functions; set_jvm}%{?use_jdk:JAVA_HOME=%{_jvmdir}/%{use_jdk}}; echo ${JAVA_HOME:-ERROR})}%java_home
+%java_home	%{expand:%%global java_home %([ -f %{_javadir}-utils/java-functions ] || { echo ERROR; exit 0; }; %{!?use_jdk:unset JAVA_HOME; . %{_javadir}-utils/java-functions >/dev/null 2>&1 && set_jvm >/dev/null 2>&1}%{?use_jdk:JAVA_HOME=%{_jvmdir}/%{use_jdk}}; echo ${JAVA_HOME:-ERROR})}%java_home
 
 %_javasrcdir	%{_usrsrc}/java
 
 %ant		JAVA_HOME=%{java_home} CLASSPATH=$CLASSPATH ant
 %jar		%{java_home}/bin/jar
-%java		%{expand:%%global java %([ -f %{_javadir}-utils/java-functions ] || { echo ERROR; exit 0; }; %{!?use_jdk:unset JAVACMD; . %{_javadir}-utils/java-functions; set_javacmd}%{?use_jdk:JAVACMD=%{java_home}/bin/java}; echo $JAVACMD)}%java
+%java		%{expand:%%global java %([ -f %{_javadir}-utils/java-functions ] || { echo ERROR; exit 0; }; %{!?use_jdk:unset JAVACMD; . %{_javadir}-utils/java-functions >/dev/null 2>&1 && set_javacmd >/dev/null 2>&1}%{?use_jdk:JAVACMD=%{java_home}/bin/java}; echo ${JAVACMD:-ERROR})}%java
 %javac		%{java_home}/bin/javac
 %javadoc	%{java_home}/bin/javadoc
 
