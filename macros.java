@@ -70,7 +70,8 @@
 # The requirement will not replace current 'default' JDK
 %required_jdk        jdk%{?use_jdk:(%{use_jdk})}
 
-%buildrequires_jdk BuildRequires: %required_jdk
+%buildrequires_jdk	BuildRequires:	%required_jdk
+%buildrequires_jre_x11	BuildRequires:	jre-X11%{?use_jdk:(%{use_jdk})}
 
 %java_home	%{expand:%%global java_home %([ -f %{_javadir}-utils/java-functions ] || { echo ERROR; exit 0; }; %{!?use_jdk:unset JAVA_HOME; . %{_javadir}-utils/java-functions >/dev/null 2>&1 && set_jvm >/dev/null 2>&1}%{?use_jdk:JAVA_HOME=%{_jvmdir}/%{use_jdk}}; echo ${JAVA_HOME:-ERROR})}%java_home
 
