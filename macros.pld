@@ -1157,12 +1157,43 @@ fi; \
 # Used by __requires_exclude / __provides_exclude to filter auto-dependencies.
 # Strips single quotes from patterns (some specs quote _noautoreq values)
 # and skips #-comment tokens.
+#
+# Each token is normalized so that the common PLD usage forms work as
+# packagers actually expect:
+#   1. prefix(content)   - escape outer parens, keep content as regex
+#                          'pear(Foo.*)'         → pear\(Foo.*\)
+#                          'pear(a|.*b|c)'       → pear\((a|.*b|c)\)
+#                          'libc.so.6(GLIBC_..)' → libc.so.6\(GLIBC_..\)
+#                          The prefix must be alphanumeric/dot/dash; this
+#                          excludes coq's 'ocamlx?\(...\)' (has '?') and
+#                          audio plugin paths '%{_libdir}/(...)' (has '/'),
+#                          which fall through to step 2 or 3.
+#   2. token without '|' - escape unescaped parens (already-escaped \( stays)
+#                          '(GLIBC_PRIVATE)' → \(GLIBC_PRIVATE\)
+#   3. token with '|'    - left intact for regex alternation grouping
+#                          '%{_libdir}/(dssi|lv2|vst)' unchanged
+#                          'ocamlx?\((A|B|C)\)' unchanged
+#
+# This diverges from upstream RPM's pure-regex contract for
+# __requires_exclude but matches how every PLD spec already uses
+# _noautoreq in practice. The typed _noautoreq_<lang> variants
+# auto-escape via __noauto_regexp_helper and remain the preferred form.
 %__noautodep_helper() %{lua:
 local args = rpm.expand("%*")
 local result = {}
 for token in args:gmatch("%S+") do
   token = token:gsub("'", "")
   if token ~= "" and not token:match("^#") then
+    local prefix, content = token:match("^([%w._-]+)%((.*)%)$")
+    if prefix then
+      if content:match("|") then
+        token = prefix .. "\\((" .. content .. ")\\)"
+      else
+        token = prefix .. "\\(" .. content .. "\\)"
+      end
+    elseif not token:match("|") then
+      token = token:gsub("\\?%(", "\\("):gsub("\\?%)", "\\)")
+    end
     table.insert(result, token)
   end
 end
