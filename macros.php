@@ -112,7 +112,7 @@ tee install.log \
 # make post message of optional packages \
 grep -E 'can optionally use|Optional feature' install.log | sed -e 's,package "pear/,package "php-pear-,g;s,^pear/,php-pear-,;s,^pear/,php-pear-,' > optional-packages.txt \
 if [ -s optional-packages.txt ]; then \
-	awk -F'"' '/use package/{print $2}' optional-packages.txt | sed -e "s,_,/,g;s,php-pear-, 'pear(,;s,$,.*)'," | tr -d '\\\n' > _noautoreq \
+	awk -F'"' '/use package/{print $2}' optional-packages.txt | sed -e "s,_,/,g;s,php-pear-, ,;s,$,.*," | tr -d '\\\n' > _noautoreq \
 else \
 	rm -f optional-packages.txt \
 fi \
@@ -172,7 +172,7 @@ find $RPM_BUILD_ROOT%{php_pear_dir} '(' -name '*~' -o -name '*.orig' ')' | xargs
 # help the developer out a little: \
 if [ -f _noautoreq ]; then \
 	echo "AutoReqdep detected:" \
-	echo "_noautoreq $(cat _noautoreq)" \
+	echo "_noautoreq_pear$(cat _noautoreq)" \
 fi \
 %{nil}
 
