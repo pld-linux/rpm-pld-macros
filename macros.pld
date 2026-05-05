@@ -1184,15 +1184,15 @@ local result = {}
 for token in args:gmatch("%S+") do
   token = token:gsub("'", "")
   if token ~= "" and not token:match("^#") then
-    local prefix, content = token:match("^([%w._-]+)%((.*)%)$")
+    local prefix, content = token:match("^([%w._-]+)[(](.*)[)]$")
     if prefix then
       if content:match("|") then
-        token = prefix .. "\\((" .. content .. ")\\)"
+        token = prefix .. "\\\\((" .. content .. ")\\\\)"
       else
-        token = prefix .. "\\(" .. content .. "\\)"
+        token = prefix .. "\\\\(" .. content .. "\\\\)"
       end
     elseif not token:match("|") then
-      token = token:gsub("\\?%(", "\\("):gsub("\\?%)", "\\)")
+      token = token:gsub("\\\\?[(]", "\\\\("):gsub("\\\\?[)]", "\\\\)")
     end
     table.insert(result, token)
   end
