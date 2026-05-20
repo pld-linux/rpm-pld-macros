@@ -1,4 +1,4 @@
-%define		rpm_macros_rev	2.066
+%define		rpm_macros_rev	2.067
 %define		find_lang_rev	1.42
 # split into individual X_prov_ver if there is a reason to desync
 %define		prov_ver	4.15
@@ -88,6 +88,7 @@ Requires:	%{name} = %{version}-%{release}
 Requires:	findutils >= 1:4.2.26
 Provides:	rpmbuild(find_lang) = %{find_lang_rev}
 Provides:	rpmbuild(macros) = %{rpm_macros_rev}
+Provides:	rpmbuild(monoautodeps)
 Requires:	rpm-macros-systemd
 Obsoletes:	rpm-build-macros < 1.745
 # ensure cargo with install --no-track support
