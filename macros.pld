@@ -468,7 +468,7 @@ print(tmpdir)
 %configure2_13 { \
  %{set_build_flags}; \
  %{?configureshell:%{configureshell}} %{configuredir}/configure \
-	--host=%{_target_platform} \
+	--host=%{_host} \
 	--prefix=%{_prefix} \
 	--exec-prefix=%{_exec_prefix} \
 	--bindir=%{_bindir} \
@@ -493,8 +493,8 @@ print(tmpdir)
 %configure { \
   %{set_build_flags}; \
  %{?configureshell:%{configureshell}} %{configuredir}/configure \
-	--host=%{_target_platform} \
-	--build=%{_target_platform} \
+	--host=%{_host} \
+	--build=%{_build} \
 	--prefix=%{_prefix} \
 	--exec-prefix=%{_exec_prefix} \
 	--bindir=%{_bindir} \
