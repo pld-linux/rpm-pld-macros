@@ -176,7 +176,7 @@ pakietu oraz przy odpluskwianiu samego pakietu.\
 %debugldflags	%{nil}
 
 %optldflags		-Wl,--as-needed -Wl,--no-copy-dt-needed-entries -Wl,-z,relro -Wl,-z,combreloc %{?use_ld:-Wl,-fuse-ld=%{use_ld}}
-%optcppflags	-DNDEBUG -DQT_NO_DEBUG
+%optcppflags	-DQT_NO_DEBUG
 
 # common compilation flags
 %_fortify_cflags	-Wp,-D_FORTIFY_SOURCE=2
