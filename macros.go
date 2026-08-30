@@ -40,4 +40,5 @@
 	%{?go_cachedir:GOCACHE="${GOCACHE-%{go_cachedir}}"} \\\
 	%{?__jobs:GOMAXPROCS=%{__jobs}} \\\
 	GOOS=${GOOS-linux} \\\
+	GOTOOLCHAIN=${GOTOOLCHAIN-local} \\\
 	/usr/bin/go
