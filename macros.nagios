@@ -7,6 +7,8 @@
 #  -d NAME  -- remove command named NAME
 #  -f FILE  -- specify plugin configuration FILE to extract command definition from
 #
+# NAME picks the "define command" block to read, so one FILE may hold several.
+#
 # Sample:
 # %triggerin -- nagios-nrpe
 # %nagios_nrpe -a %{plugin} -f %{_sysconfdir}/%{plugin}.cfg
@@ -28,7 +30,7 @@
 	%{-a:# on -a and config exists \
 	if [ -f /etc/nagios/nrpe.cfg ]; then \
 		if [ ! -f $file ] || ! %{__grep} -q '^command\[%{-a*}\]' $file; then \
-			%{__sed} -ne 's/^[ \t]*command_line[ \t]\+\(.\+\)/command[%{-a*}]=\1/p' %{-f*} >> $file; \
+			%{__sed} -ne '/^[ \t]*command_name[ \t]\+%{-a*}[ \t]*$/,/\}/{s/^[ \t]*command_line[ \t]\+\(.\+\)/command[%{-a*}]=\1/p}' %{-f*} >> $file; \
 		fi; \
 	fi;} \
 	%{-d:# on package remove, -d and config exists \
