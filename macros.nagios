@@ -17,6 +17,7 @@
 # %nagios_nrpe -d %{plugin} -f %{_sysconfdir}/%{plugin}.cfg
 #
 # Requirements:
+# Requires:			awk
 # Requires:			grep
 # Requires:			sed >= 4.0
 # BuildRequires:	rpmbuild(macros) >= 1.685
@@ -30,7 +31,11 @@
 	%{-a:# on -a and config exists \
 	if [ -f /etc/nagios/nrpe.cfg ]; then \
 		if [ ! -f $file ] || ! %{__grep} -q '^command\[%{-a*}\]' $file; then \
-			%{__sed} -ne '/^[ \t]*command_name[ \t]\+%{-a*}[ \t]*$/,/\}/{s/^[ \t]*command_line[ \t]\+\(.\+\)/command[%{-a*}]=\1/p}' %{-f*} >> $file; \
+			%{__awk} -v n='%{-a*}' ' \
+				/^[ \t]*command_name[ \t]/ { v = $0; sub(/^[ \t]*command_name[ \t]+/, "", v); sub(/[ \t]+$/, "", v); hit = (v == n) } \
+				/^[ \t]*command_line[ \t]/ { line = $0; sub(/^[ \t]*command_line[ \t]+/, "", line) } \
+				/^[ \t]*\}/ { if (hit && line != "") print "command[" n "]=" line; hit = 0; line = "" } \
+			' %{-f*} >> $file; \
 		fi; \
 	fi;} \
 	%{-d:# on package remove, -d and config exists \
