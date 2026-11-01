@@ -36,6 +36,9 @@ thumbv7neon-unknown-linux-gnueabihf\\\
 %__rustc	/usr/bin/rustc
 %__cargo	/usr/bin/cargo
 %__cargo_common_opts	-v --offline
+%cargo_profile_env_var()	CARGO_PROFILE_%{1}_%{2}
+%cargo_build_profile_env_var()	%{cargo_profile_env_var %{!?debug:RELEASE}%{?debug:DEV} %1}
+%cargo_test_profile_env_var()	%{cargo_profile_env_var TEST %1}
 %cargo_build \\\
 	CC="%{__cc}" \\\
 	CXX="%{__cxx}" \\\
@@ -47,6 +50,7 @@ thumbv7neon-unknown-linux-gnueabihf\\\
 	%{?rustc_wrapper:RUSTC_WRAPPER="${RUSTC_WRAPPER:-%rustc_wrapper}"} \\\
 	RUSTFLAGS="${RUSTFLAGS:-%rpmrustflags}" \\\
 	%{?__jobs:CARGO_BUILD_JOBS="${CARGO_BUILD_JOBS:-%{__jobs}}"} \\\
+	%{?cargo_lto:%{cargo_build_profile_env_var LTO}=${%{cargo_build_profile_env_var LTO}:-%cargo_lto}} \\\
 	%{__cargo} %{__cargo_common_opts} build %{!?debug:--release} \\\
 	--target %rust_target \\\
 	--target-dir %{cargo_targetdir} \\\
@@ -63,6 +67,7 @@ thumbv7neon-unknown-linux-gnueabihf\\\
 	%{?rustc_wrapper:RUSTC_WRAPPER="${RUSTC_WRAPPER:-%rustc_wrapper}"} \\\
 	RUSTFLAGS="${RUSTFLAGS:-%rpmrustflags}" \\\
 	%{?__jobs:CARGO_BUILD_JOBS="${CARGO_BUILD_JOBS:-%{__jobs}}"} \\\
+	%{?cargo_lto:%{cargo_build_profile_env_var LTO}=${%{cargo_build_profile_env_var LTO}:-%cargo_lto}} \\\
 	%{__cargo} %{__cargo_common_opts} rustc %{!?debug:--release} \\\
 	--target %rust_target \\\
 	--target-dir %{cargo_targetdir} \\\
