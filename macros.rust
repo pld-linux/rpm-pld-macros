@@ -84,6 +84,7 @@ thumbv7neon-unknown-linux-gnueabihf\\\
 	%{?rustc_wrapper:RUSTC_WRAPPER="${RUSTC_WRAPPER:-%rustc_wrapper}"} \\\
 	RUSTFLAGS="${RUSTFLAGS:-%rpmrustflags}" \\\
 	%{?__jobs:CARGO_BUILD_JOBS="${CARGO_BUILD_JOBS:-%{__jobs}}"} \\\
+	%{?cargo_lto:%{cargo_build_profile_env_var LTO}=${%{cargo_build_profile_env_var LTO}:-%cargo_lto}} \\\
 	%{__cargo} %{__cargo_common_opts} install \\\
 	--target %rust_target \\\
 	--target-dir %{cargo_targetdir} \\\
